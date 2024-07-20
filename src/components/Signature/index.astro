@@ -1,0 +1,15 @@
+---
+import { Image } from "astro:assets";
+
+import Me from "./assets/me.png";
+import Mystery from "./assets/mystery.png";
+---
+
+<div class="pt-[35vh] w-screen h-screen flex flex-col justify-between relative">
+  <Image class="max-w-[40vw] mr-[50vw] self-end" src={Me} alt="its me" />
+  <Image
+    class="absolute bottom-0 max-w-[30vw] self-center"
+    src={Mystery}
+    alt="its a mystery!!"
+  />
+</div>

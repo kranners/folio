@@ -7,7 +7,6 @@ const magicWord = Array.from("let's make ✨ magic ✨ happen.");
 
 export default function CallToAction() {
   let characters = [];
-  // Classic for loop to make the magic characters
   for (let i = 0; i < magicWord.length; i++) {
     characters.push(
       <span
@@ -32,7 +31,7 @@ export default function CallToAction() {
       <p className={Styles.paragraph}>
         <a href="https://www.linkedin.com/in/aajrp/">
           reach out on linkedin here
-          <img className={Styles.icon} src={LinkedinIcon} alt="Linkedin Icon" />
+          <img className={Styles.icon} src={LinkedinIcon.src} alt="Linkedin Icon" />
         </a>
       </p>
       <p className={Styles.paragraph}>

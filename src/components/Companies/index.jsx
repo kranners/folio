@@ -2,11 +2,11 @@ import React from "react";
 import Styles from "./styles.module.scss";
 import FutureGridLogo from "./logos/future-grid.png";
 import LivePresoLogo from "./logos/livepreso.png";
-import OriginEnergyLogo from "./logos/origin-energy.png";
+import InlightLogo from "./logos/inlight.jpg";
 import SeidoKarateLogo from "./logos/seido-karate.png";
 import SwinburneLogo from "./logos/swinburne.png";
 
-const logos = [
+const LOGOS = [
   {
     source: FutureGridLogo,
     description: "Future Grid",
@@ -18,9 +18,9 @@ const logos = [
     url: "https://www.livepreso.com/",
   },
   {
-    source: OriginEnergyLogo,
-    description: "Origin Energy",
-    url: "https://www.originenergy.com.au/",
+    source: InlightLogo,
+    description: "Inlight",
+    url: "https://www.inlight.com.au/",
   },
   {
     source: SeidoKarateLogo,
@@ -39,11 +39,11 @@ export default function Companies() {
     <div className={Styles.container}>
       <h2 className={Styles.title}>as seen on...</h2>
       <div className={Styles.companies}>
-        {logos.map((logo) => (
+        {LOGOS.map((logo) => (
           <a href={logo.url} className={Styles.logo}>
             <img
               className={Styles.logo}
-              src={logo.source}
+              src={logo.source.src}
               alt={logo.description}
             />
           </a>

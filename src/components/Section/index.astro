@@ -1,0 +1,15 @@
+---
+interface Props {
+  backgroundColor: string;
+}
+
+const { backgroundColor } = Astro.props;
+---
+
+<div
+  class="snap-start h-screen w-screen flex flex-col"
+  style={{ backgroundColor }}
+>
+  <slot />
+</div>
+

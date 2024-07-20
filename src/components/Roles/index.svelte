@@ -1,16 +1,16 @@
 <div class="roles-container">
   <div class="scrolling-words-container">
-    <span style="color: #5f6368">i'm a</span>
+    <span style="color: #011c53">i'm a</span>
     <div class="scrolling-words-box">
       <ul>
         <li style="color: #666666">Software Developer</li>
         <li style="color: #4285f4">Computer Scientist</li>
-        <li style="color: #ea4335">Super Ninja</li>
+        <li style="color: #ea4335">Ninja</li>
         <li style="color: #debff4">Vim Evangelist</li>
-        <li style="color: #34a853">DevOps Engineer</li>
+        <li style="color: #34a853">Nix Obsessive</li>
         <li style="color: #fbbc04">Full-stack Wizard</li>
         <li style="color: #c7828b">Caffeine Enthusiast</li>
-        <li style="color: #84a4f9">Cloud Specialist</li>
+        <li style="color: #84a4f9">TypeScript Gymnast</li>
         <li style="color: #fcbeb1">Product Owner</li>
         <li style="color: #d480aa">Rampant Automator</li>
         <li style="color: #e69cff">Prolific Emoji User</li>
@@ -24,7 +24,7 @@
   @use 'sass:math';
 
   .roles-container {
-    height: 50vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,6 @@
     }
   }
 
-  // Variables
   $item-count: 12;
 
   @keyframes scrollUp {
