@@ -5,13 +5,13 @@
       <ul>
         <li style="color: #666666">Software Developer</li>
         <li style="color: #4285f4">Computer Scientist</li>
-        <li style="color: #ea4335">Ninja</li>
+        <li style="color: #ea4335">Part-time Ninja</li>
         <li style="color: #debff4">Vim Evangelist</li>
         <li style="color: #34a853">Nix Obsessive</li>
         <li style="color: #fbbc04">Full-stack Wizard</li>
         <li style="color: #c7828b">Caffeine Enthusiast</li>
         <li style="color: #84a4f9">TypeScript Gymnast</li>
-        <li style="color: #fcbeb1">Product Owner</li>
+        <li style="color: #fcbeb1">Slack Fiend</li>
         <li style="color: #d480aa">Rampant Automator</li>
         <li style="color: #e69cff">Prolific Emoji User</li>
         <li style="color: #666666">Software Developer</li>
