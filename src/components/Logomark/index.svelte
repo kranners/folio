@@ -1,9 +1,12 @@
 <div
-  class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+  class="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
 >
   <p
-    class="mr-2 text-6xl text-center text-white font-black select-none"
+    class="w-[10rem] mr-2 text-4xl text-center text-white font-black select-none"
   >
-    ajrp
+    aaron
+    jessup
+    ryan
+    pierce
   </p>
 </div>
