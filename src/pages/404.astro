@@ -1,0 +1,44 @@
+---
+import MainHead from "../components/MainHead.astro";
+import Wave from "../components/Wave/Wave.vue";
+---
+
+<html lang="en">
+  <head>
+    <MainHead title="Not Found" />
+
+    <style>
+      .wrapper {
+        overflow: hidden;
+        position: fixed;
+
+        width: 100vw;
+        height: 100vh;
+
+        text-align: center;
+      }
+
+      .heading {
+        top: 50%;
+        position: absolute;
+        width: 100%;
+
+        color: #666;
+        opacity: 0.6;
+      }
+
+      .lower {
+        top: 60%;
+      }
+    </style>
+  </head>
+  <body>
+    <nav></nav>
+    <div class="wrapper">
+      <h1 class="heading">👀 what're you looking for? 👀</h1>
+      <p class="heading lower">404 Page Not Found</p>
+      <Wave client:only="vue" />
+    </div>
+    <footer></footer>
+  </body>
+</html>

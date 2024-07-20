@@ -1,0 +1,62 @@
+---
+// Component Imports
+import MainHead from "../components/MainHead.astro";
+import Footer from "../components/Footer/index.jsx";
+import Logomark from "../components/Logomark/index.svelte";
+import WaveContainer from "../components/Wave/WaveContainer.vue";
+import Roles from "../components/Roles/index.svelte";
+import LanguageHeader from "../components/LanguageHeader/index.jsx";
+import Companies from "../components/Companies/index.jsx";
+import CallToAction from "../components/CallToAction/index.jsx";
+---
+<html>
+	<head>
+		<MainHead title="ajrp" description="Aaron Pierce: Developer / Ninja" />
+
+		<!-- Fullpage linkers --><!-- Sourced from CdnJs https://cdnjs.com/libraries/fullPage.js -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.11/fullpage.css" integrity="sha512-TzpAFfzjJAI0CY7w33tQEEIflTR3zB4kaQcCXcr+V4HmoQmXSMsQpX6z+c3lNC3XV0BeXQ6ZNb5X+sKeLP3cKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.11/fullpage.js" integrity="sha512-I15DlK8qDL0FQMl9ilYw38xMZbUSFULAWdJidRu5qEdqhC5An1EjKofGZSAPKFQoHJ8+p5D4V/21O+5bl1Asyg==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+
+		<style lang="css">
+			.wave-container {
+				position: relative;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="fullpage">
+			<div class="section">
+				<LanguageHeader client:only="react" language="vue" />
+				<Logomark />
+				<WaveContainer client:load />
+			</div>
+			<div class="section">
+				<LanguageHeader client:only="react" language="svelte" />
+				<Roles />
+			</div>
+			<div class="section">
+				<LanguageHeader client:only="react" language="react" />
+				<Companies />
+			</div>
+			<div class="section">
+				<LanguageHeader client:only="react" language="preact" />
+				<CallToAction />
+				<Footer />
+			</div>
+		</div>
+
+		<!-- Fullpage initialization script -->
+		<script>
+			new fullpage("#fullpage", {
+				//options here
+				license: "gplv3",
+				autoScrolling: true,
+				scrollHorizontally: true,
+				menu: "#navbar",
+				navigation: true,
+				css3: true,
+			});
+		</script>
+	</body>
+</html>

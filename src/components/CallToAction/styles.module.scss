@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  color: #666;
+  opacity: 0.6;
+}
+
+.paragraph {
+  color: #666;
+  padding-top: 50px;
+}
+
+.character {
+  // Required to make the movement work
+  position: relative;
+  animation: moveUpDown 2s ease-in-out infinite;
+}
+
+.icon {
+  display: inline;
+  height: 0.75rem;
+  fill: #666;
+  opacity: 0.6;
+  padding-left: 0.75rem;
+}
+
+@keyframes moveUpDown {
+  0%,
+  100% {
+    top: 0;
+  }
+  50% {
+    top: 30px;
+  }
+}
