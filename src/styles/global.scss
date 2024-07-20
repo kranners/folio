@@ -61,6 +61,11 @@ body {
   margin: 0;
   color: var(--t-fg);
   font-family: "Inter", "system-ui", sans-serif;
+  min-height: 100vh;
+
+  // iOS Safari fix
+  // Stolen from: https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit/
+  min-height: -webkit-fill-available;
 }
 
 * {
@@ -149,16 +154,3 @@ $colors: "black", "blue", "white";
 .tar {
   text-align: right;
 }
-
-// wrapper
-.wrapper {
-  max-width: 80em;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.wrapper__readable {
-  max-width: 50em;
-}
-

@@ -7,9 +7,8 @@ const { backgroundColor } = Astro.props;
 ---
 
 <div
-  class="snap-start h-screen w-screen flex flex-col"
+  class="snap-start h-screen w-screen flex flex-col overflow-hidden"
   style={{ backgroundColor }}
 >
   <slot />
 </div>
-

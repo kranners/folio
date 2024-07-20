@@ -1,0 +1,38 @@
+name: Build and deploy
+on: push
+jobs:
+  build:
+    name: Setup and build
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v3
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static site
+        run: npm run build
+      - name: Upload completed build
+        uses: actions/upload-artifact@v3
+        with:
+          name: static-build-result
+          path: dist
+
+  deploy:
+    name: Deploy to Hostinger
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: static-build-result
+          path: site
+      - name: Setup FTP client
+        run: sudo apt-get install -y lftp
+      - name: Deploy to Hostinger
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }}",'${{ secrets.FTP_PASSWORD }}' ${{ secrets.FTP_ADDRESS }} -e "set ssl:verify-certificate false ; mirror -R --parallel site domains/cute.engineer/public_html ; quit"
