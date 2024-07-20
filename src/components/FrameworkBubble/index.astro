@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+
+import Bubble from "./assets/bubble.png";
+import Preact from "./assets/preact.svg";
+import React from "./assets/react.svg";
+import Svelte from "./assets/svelte.svg";
+
+interface Framework {
+  display: string;
+  src: ImageMetadata;
+}
+
+export const FRAMEWORKS: Record<string, Framework> = {
+  preact: {
+    display: "Preact",
+    src: Preact,
+  },
+  react: {
+    display: "React",
+    src: React,
+  },
+  svelte: {
+    display: "Svelte",
+    src: Svelte,
+  },
+};
+
+interface Props {
+  framework: keyof typeof FRAMEWORKS;
+}
+
+const { framework } = Astro.props;
+const { display, src } = FRAMEWORKS[framework];
+---
+
+<div class="hide-on-mobile w-screen h-screen flex items-end relative">
+  <div class="flex flex-col justify-center items-center relative">
+    <Image
+      loading="eager"
+      class="w-[20vw]"
+      src={Bubble}
+      alt={`Built with ${display}`}
+    />
+    <Image
+      class="="
+      loading="eager"
+      class="absolute w-[5vw] mt-[40%]"
+      src={src}
+      alt={display}
+    />
+  </div>
+</div>
