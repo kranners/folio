@@ -24,7 +24,6 @@
   @use 'sass:math';
 
   .roles-container {
-    padding-top: 15vh;
     height: 100vh;
     display: flex;
     align-items: center;
