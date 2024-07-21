@@ -1,14 +1,27 @@
 ---
+import FrameworkBubble from "../FrameworkBubble/index.astro";
+import { FRAMEWORKS } from "../FrameworkBubble/index.astro";
+
 interface Props {
   backgroundColor: string;
+  framework?: keyof typeof FRAMEWORKS;
 }
 
-const { backgroundColor } = Astro.props;
+const { backgroundColor, framework } = Astro.props;
 ---
 
 <div
   class="snap-start h-screen w-screen max-h-[-webkit-fill-available] flex flex-col overflow-hidden"
   style={{ backgroundColor }}
 >
-  <slot />
+  <div class="relative">
+    <div class="absolute h-screen w-screen max-h-[-webkit-fill-available]">
+      <slot />
+    </div>
+    <div
+      class="select-none pointer-events-none absolute h-screen w-screen max-h-[-webkit-fill-available]"
+    >
+      {framework && <FrameworkBubble framework={framework} />}
+    </div>
+  </div>
 </div>
