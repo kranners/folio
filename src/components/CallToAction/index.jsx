@@ -36,7 +36,7 @@ export default function CallToAction() {
       </p>
       <p className={Styles.paragraph}>
         want to see how this spell was cast?{" "}
-        <a href="https://gitlab.com/kranners/polyfolio">
+        <a href="https://github.com/kranners/folio">
           check out the repo here
         </a>
       </p>

@@ -1,20 +1,20 @@
 <div class="roles-container">
   <div class="scrolling-words-container">
-    <span style="color: #011c53">i'm a</span>
+    <span class="im-a" style="color: #011c53">i'm a</span>
     <div class="scrolling-words-box">
-      <ul>
-        <li style="color: #666666">Software Developer</li>
-        <li style="color: #4285f4">Computer Scientist</li>
-        <li style="color: #ea4335">Part-time Ninja</li>
-        <li style="color: #debff4">Vim Evangelist</li>
-        <li style="color: #34a853">Nix Obsessive</li>
-        <li style="color: #fbbc04">Full-stack Wizard</li>
-        <li style="color: #c7828b">Caffeine Enthusiast</li>
-        <li style="color: #84a4f9">TypeScript Gymnast</li>
-        <li style="color: #fcbeb1">Slack Fiend</li>
-        <li style="color: #d480aa">Rampant Automator</li>
-        <li style="color: #e69cff">Prolific Emoji User</li>
-        <li style="color: #666666">Software Developer</li>
+      <ul class="flex flex-col items-center">
+        <li class="role" style="color: #666666">Software Developer</li>
+        <li class="role" style="color: #4285f4">Computer Scientist</li>
+        <li class="role" style="color: #ea4335">Part-time Ninja</li>
+        <li class="role" style="color: #debff4">Vim Evangelist</li>
+        <li class="role" style="color: #34a853">Nix Obsessive</li>
+        <li class="role" style="color: #fbbc04">Full-stack Wizard</li>
+        <li class="role" style="color: #c7828b">Caffeine Enthusiast</li>
+        <li class="role" style="color: #84a4f9">TypeScript Gymnast</li>
+        <li class="role" style="color: #fcbeb1">Slack Fiend</li>
+        <li class="role" style="color: #d480aa">Rampant Automator</li>
+        <li class="role" style="color: #e69cff">Prolific Emoji User</li>
+        <li class="role" style="color: #666666">Software Developer</li>
       </ul>
     </div>
   </div>
@@ -24,6 +24,7 @@
   @use 'sass:math';
 
   .roles-container {
+    padding-top: 15vh;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -33,13 +34,30 @@
   .scrolling-words-container {
     display: flex;
     align-items: center;
-    font-size: 6vw;
-    font-weight: 600;
+
+    font-size: 40px;
   }
 
-  @media screen and (min-width: 700px) {
+  .role {
+    white-space: nowrap;
+    overflow: hidden;
+
+    font-weight: 800;
+  }
+
+  @media screen and (max-width: 700px) {
     .scrolling-words-container {
+      flex-direction: column;
+    }
+
+    .im-a {
       font-size: 40px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .scrolling-words-container {
+      font-size: 8vw;
     }
   }
 
