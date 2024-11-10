@@ -1,4 +1,3 @@
-import { h } from "preact";
 import Styles from "./styles.module.scss";
 
 import LinkedinIcon from "./socials/linkedin.svg";

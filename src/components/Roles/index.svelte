@@ -14,6 +14,7 @@
         <li class="role" style="color: #fcbeb1">Slack Fiend</li>
         <li class="role" style="color: #d480aa">Rampant Automator</li>
         <li class="role" style="color: #e69cff">Prolific Emoji User</li>
+        <li class="role" style="color: #afe0ce">Note Author</li>
         <li class="role" style="color: #666666">Software Developer</li>
       </ul>
     </div>
@@ -79,7 +80,7 @@
     }
   }
 
-  $item-count: 12;
+  $item-count: 13;
 
   @keyframes scrollUp {
     @for $i from 0 through ($item-count - 1) {

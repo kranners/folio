@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+
+import Cup from "./assets/cup.png";
+---
+
+<style>
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.float {
+  animation: 3s ease-in-out 0s float;
+  animation-iteration-count: infinite;
+}
+
+.ease-all {
+  transition: all 0.5s ease-in-out;
+}
+
+.glow {
+  background: radial-gradient(
+    circle at center, 
+    rgba(254, 243, 199, 100) 0%, 
+    rgba(102, 119, 97, 0) 40%
+  );
+
+  width: 80vw;
+  aspect-ratio: square;
+}
+
+.glow:hover {
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+
+<div class="w-screen h-screen flex flex-col items-center justify-center">
+  <div class="ease-all glow float pointer-events-none w-screen h-[90vh] flex items-center justify-center">
+    <a href="https://docs.cute.engineer">
+      <Image 
+        class="ease-all max-w-sm w-[60vw] hover:max-w-md hover:w-[70vw] pointer-events-auto"
+        alt="Coffee cup notebook"
+        src={Cup}
+      />
+    </a>
+  </div>
+  <p class="absolute text-[#733e19] text-[35px] text-center top-[75vh]">
+    where my brain lives 👆
+  </p>
+</div>
