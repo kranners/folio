@@ -15,13 +15,13 @@ import Section from "../components/Section/index.astro";
     <MainHead title="ajrp" description="Aaron Pierce: Developer / Ninja" />
   </head>
   <body>
-    <Logomark />
+    <Logomark client:load="svelte" />
     <div class="h-screen w-screen snap-y snap-mandatory overflow-y-scroll">
       <Section backgroundColor="#F9F9F9">
         <Signature />
       </Section>
       <Section backgroundColor="#FEE3AC" framework="svelte">
-        <Roles />
+        <Roles client:load="svelte" />
       </Section>
       <Section backgroundColor="#B5DCF0" framework="react">
         <Companies />
