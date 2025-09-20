@@ -3,12 +3,12 @@ import { Image } from "astro:assets";
 
 import Guy from "./assets/guy.png";
 ---
-<div class="w-full flex flex-row justify-center items-center gap-8 bg-[#F9F9F9]">
+<div class="max-w-full w-full flex flex-col justify-center items-center bg-[#F9F9F9] pt-16">
+  <p class="text-xl">oh hi there</p>
   <Image
     alt="Drawn picture of me hiding under a wall - hello there!"
     src={Guy}
-    class="max-w-96"
+    class="max-w-[40vw] w-96"
   />
-  <p class="text-xl">oh hi there</p>
 </div>
 
