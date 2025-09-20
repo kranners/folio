@@ -1,37 +1,24 @@
-import type { PropsWithChildren } from "react";
-
-type RoleProps = PropsWithChildren & {
-  color: string;
-};
-
-const Role = ({ children, color }: RoleProps) => {
-  return (
-    <li class="role" style={`color: ${color}`}>
-      {children}
-    </li>
-  );
-};
+import { motion } from "motion/react";
 
 const Roles = () => {
   return (
-    <div class="h-screen flex items-center justify-center">
-      <div class="text-4xl font-bold flex flex-row items-center gap-3">
-        <span class="color-[#011c53]">i'm a</span>
-        <ul class="flex flex-col items-left h-10 whitespace-nowrap overflow-hidden">
-          <Role color="#666666">Software Developer</Role>
-          <Role color="#4285f4">Computer Scientist</Role>
-          <Role color="#ea4335">Part-time Ninja</Role>
-          <Role color="#debff4">Vim Evangelist</Role>
-          <Role color="#34a853">Nix Obsessive</Role>
-          <Role color="#fbbc04">Full-stack Wizard</Role>
-          <Role color="#c7828b">Caffeine Enthusiast</Role>
-          <Role color="#84a4f9">TypeScript Gymnast</Role>
-          <Role color="#fcbeb1">Slack Fiend</Role>
-          <Role color="#d480aa">Rampant Automator</Role>
-          <Role color="#e69cff">Prolific Emoji User</Role>
-          <Role color="#afe0ce">Note Author</Role>
-          <Role color="#666666">Software Developer</Role>
-        </ul>
+    <div className="h-screen flex items-center justify-center">
+      <div className="text-4xl font-bold flex flex-row items-center gap-3">
+        <span className="color-[#011c53]">i'm a</span>
+        <motion.ul className="flex flex-col items-left h-10 whitespace-nowrap overflow-hidden">
+          <li className="text-[#4285f4]">Computer Scientist</li>
+          <li className="text-[#ea4335]">Part-time Ninja</li>
+          <li className="text-[#debff4]">Vim Evangelist</li>
+          <li className="text-[#34a853]">Nix Obsessive</li>
+          <li className="text-[#fbbc04]">Full-stack Wizard</li>
+          <li className="text-[#c7828b]">Caffeine Enthusiast</li>
+          <li className="text-[#84a4f9]">TypeScript Gymnast</li>
+          <li className="text-[#fcbeb1]">Slack Fiend</li>
+          <li className="text-[#d480aa]">Rampant Automator</li>
+          <li className="text-[#e69cff]">Prolific Emoji User</li>
+          <li className="text-[#afe0ce]">Note Author</li>
+          <li className="text-[#666666]">Software Developer</li>
+        </motion.ul>
       </div>
     </div>
   );
