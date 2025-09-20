@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import preact from "@astrojs/preact";
 import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
@@ -11,5 +11,5 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [preact(), react(), svelte(), vue(), tailwind()]
+  integrations: [preact(), react(), svelte(), vue(), tailwind()],
 });

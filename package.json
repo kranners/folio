@@ -1,33 +1,41 @@
 {
   "name": "folio",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "scripts": {
     "dev": "astro dev --host",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@astrojs/check": "^0.8.2",
-    "@astrojs/preact": "^3.5.1",
-    "@astrojs/react": "^3.6.0",
-    "@astrojs/svelte": "^5.7.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vue": "^4.5.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "astro": "^4.12.2",
-    "preact": "^10.22.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "svelte": "^4.2.18",
-    "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.3",
-    "vue": "^3.4.33"
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/preact": "^4.1.1",
+    "@astrojs/react": "^4.3.1",
+    "@astrojs/svelte": "^7.1.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@astrojs/vue": "^5.1.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "astro": "^5.13.9",
+    "preact": "^10.27.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "svelte": "^5.39.3",
+    "tailwindcss": "^3.4.17",
+    "vue": "^3.5.21"
   },
   "devDependencies": {
-    "sass": "^1.77.8"
+    "@eslint/js": "^9.36.0",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jiti": "^2.5.1",
+    "sass": "^1.93.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0"
   }
 }
