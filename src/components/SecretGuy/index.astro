@@ -1,0 +1,14 @@
+---
+import { Image } from "astro:assets";
+
+import Guy from "./assets/guy.png";
+---
+<div class="w-full flex flex-row justify-center items-center gap-8 bg-[#F9F9F9]">
+  <Image
+    alt="Drawn picture of me hiding under a wall - hello there!"
+    src={Guy}
+    class="max-w-96"
+  />
+  <p class="text-xl">oh hi there</p>
+</div>
+

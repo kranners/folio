@@ -6,17 +6,20 @@ import Roles from "../components/Roles/index.svelte";
 import Companies from "../components/Companies/index.jsx";
 import CallToAction from "../components/CallToAction/index.jsx";
 import FrappuccinoLink from "../components/FrappuccinoLink/index.astro";
+import SecretGuy from "../components/SecretGuy/index.astro";
 
 import Section from "../components/Section/index.astro";
 ---
 
 <html>
   <head>
-    <MainHead title="ajrp" description="Aaron Pierce: Developer / Ninja" />
+    <MainHead title="ajrp" description="aaron pierce: software guy" />
   </head>
   <body>
     <Logomark client:load="svelte" />
     <div class="h-screen w-screen snap-y snap-mandatory overflow-y-scroll">
+      <SecretGuy />
+
       <Section backgroundColor="#F9F9F9">
         <Signature />
       </Section>
