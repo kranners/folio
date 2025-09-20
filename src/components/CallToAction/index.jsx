@@ -1,6 +1,7 @@
 import Styles from "./styles.module.scss";
 
 import LinkedinIcon from "./socials/linkedin.svg";
+import GitHubIcon from "./socials/github.svg";
 
 const magicWord = Array.from("let's make ✨ magic ✨ happen.");
 
@@ -37,6 +38,7 @@ export default function CallToAction() {
         want to see how this spell was cast?{" "}
         <a href="https://github.com/kranners/folio">
           check out the repo here
+          <img className={Styles.icon} src={GitHubIcon.src} alt="GitHub Icon" />
         </a>
       </p>
     </div>
