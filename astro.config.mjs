@@ -11,5 +11,19 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [preact(), react(), svelte(), vue(), tailwind()],
+  integrations: [
+    preact({
+      include: "**/preact/*",
+    }),
+    react({
+      include: "**/react/*",
+    }),
+    svelte({
+      include: "**.svelte",
+    }),
+    vue({
+      include: "**.vue",
+    }),
+    tailwind(),
+  ],
 });

@@ -1,14 +1,15 @@
 ---
-import MainHead from "../components/MainHead.astro";
-import Signature from "../components/Signature/index.astro";
-import Logomark from "../components/Logomark/index.svelte";
-import Roles from "../components/Roles/index.svelte";
-import Companies from "../components/Companies/index.jsx";
-import CallToAction from "../components/CallToAction/index.jsx";
-import FrappuccinoLink from "../components/FrappuccinoLink/index.astro";
-import SecretGuy from "../components/SecretGuy/index.astro";
+import MainHead from "../components/astro/main-head/index.astro";
+import Signature from "../components/astro/signature/index.astro";
+import FrappuccinoLink from "../components/astro/frappuccino-link/index.astro";
+import Section from "../components/astro/section/index.astro";
 
-import Section from "../components/Section/index.astro";
+import Logomark from "../components/svelte/logomark/index.svelte";
+
+import CallToAction from "../components/preact/call-to-action/index.jsx";
+
+import Roles from "../components/react/roles/index.jsx";
+import Companies from "../components/react/companies/index.jsx";
 ---
 
 <html>
@@ -18,13 +19,11 @@ import Section from "../components/Section/index.astro";
   <body>
     <Logomark client:load="svelte" />
     <div class="h-screen w-screen snap-y snap-mandatory overflow-y-scroll">
-      <SecretGuy />
-
       <Section backgroundColor="#F9F9F9">
         <Signature />
       </Section>
-      <Section backgroundColor="#FEE3AC" framework="svelte">
-        <Roles client:load="svelte" />
+      <Section backgroundColor="#FEE3AC">
+        <Roles client:only="react" />
       </Section>
       <Section backgroundColor="#B5DCF0" framework="react">
         <Companies />
