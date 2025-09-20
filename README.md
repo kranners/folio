@@ -1,16 +1,19 @@
-# folio 📁
+<h1>
+<p align="center">
+    📁
+  <br>folio
+</h1>
+  <p align="center">
+    my personal site
+  </p>
+</p>
 
-My basic personal site.
-
-needed to make sure my domain doesn't go stale
-
-can't have that 👻
+needlessly overcomplicated
 
 ### Local Setup
 
-Install [Nix](https://nix.dev/install-nix) and [nix-direnv](https://github.com/nix-community/nix-direnv), then:
-```sh
-$ direnv allow
-$ npm install
-```
+1. [Install `fnm`](https://docs.cute.engineer/fnm)
+2. `fnm use`
+3. `npm install`
+4. `npm run dev`
 
