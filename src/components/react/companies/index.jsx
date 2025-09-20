@@ -1,4 +1,3 @@
-import React from "react";
 import Styles from "./styles.module.scss";
 import FutureGridLogo from "./logos/future-grid.png";
 import LivePresoLogo from "./logos/livepreso.png";
