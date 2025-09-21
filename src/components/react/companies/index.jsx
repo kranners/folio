@@ -77,7 +77,7 @@ const CompanyCard = ({ source, description, role, index, onSwipe }) => {
         <img
           src={source.src}
           alt={description}
-          className="pointer-events-none"
+          className="pointer-events-none p-4 max-w-2/3"
         />
 
         <p className="lowercase text-xl md:text-4xl font-semibold">{description}</p>
@@ -110,7 +110,7 @@ const Companies = () => {
   return (
     <div className="w-screen h-screen pt-[35vh] overflow-visible flex flex-col items-center">
       <h2 className="text-[#4a230f] mb-12 text-2xl">have a little peruse...</h2>
-      <motion.ul ref={scope} className="h-1/2 w-1/3 max-h-128 max-w-80 min-h-80 min-w-60 grid grid-rows-1 grid-cols-1">
+      <motion.ul ref={scope} className="h-1/3 w-1/4 md:h-2/3 md:w-1/3 lg:h-4/5 lg:w-1/3 max-h-128 max-w-80 min-h-80 min-w-60 grid grid-rows-1 grid-cols-1">
         {logos.map((logo, index) => (
           <CompanyCard
             key={logo.url}
