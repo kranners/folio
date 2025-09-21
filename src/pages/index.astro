@@ -18,14 +18,14 @@ import Companies from "../components/react/companies/index.jsx";
   <body>
     <Logomark client:load="svelte" />
     <div class="h-screen w-screen snap-y snap-mandatory overflow-y-scroll">
+      <Section backgroundColor="#B5DCF0">
+        <Companies client:only="react" />
+      </Section>
       <Section backgroundColor="#F9F9F9">
         <Signature />
       </Section>
       <Section backgroundColor="#FEE3AC">
         <Roles client:only="react" />
-      </Section>
-      <Section backgroundColor="#B5DCF0">
-        <Companies />
       </Section>
       <Section backgroundColor="#AECEA6">
         <FrappuccinoLink /> 
