@@ -6,8 +6,7 @@ import Section from "../components/astro/section/index.astro";
 
 import Logomark from "../components/svelte/logomark/index.svelte";
 
-import CallToAction from "../components/preact/call-to-action/index.jsx";
-
+import CallToAction from "../components/react/call-to-action/index.jsx";
 import Roles from "../components/react/roles/index.jsx";
 import Companies from "../components/react/companies/index.jsx";
 ---
@@ -25,14 +24,14 @@ import Companies from "../components/react/companies/index.jsx";
       <Section backgroundColor="#FEE3AC">
         <Roles client:only="react" />
       </Section>
-      <Section backgroundColor="#B5DCF0" framework="react">
+      <Section backgroundColor="#B5DCF0">
         <Companies />
       </Section>
       <Section backgroundColor="#AECEA6">
         <FrappuccinoLink /> 
       </Section>
-      <Section backgroundColor="#E3C9D6" framework="preact">
-        <CallToAction />
+      <Section backgroundColor="#E3C9D6">
+        <CallToAction client:only="react" />
       </Section>
     </div>
   </body>

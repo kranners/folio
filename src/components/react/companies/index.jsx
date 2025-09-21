@@ -39,7 +39,7 @@ export default function Companies() {
       <h2 className={Styles.title}>as seen on...</h2>
       <div className={Styles.companies}>
         {LOGOS.map((logo) => (
-          <a href={logo.url} className={Styles.logo}>
+          <a key={logo.url} href={logo.url} className={Styles.logo}>
             <img
               className={Styles.logo}
               src={logo.source.src}
