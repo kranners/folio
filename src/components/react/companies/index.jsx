@@ -34,7 +34,7 @@ const LOGOS = [
   },
   {
     source: SwinburneLogo,
-    description: "Swinburne University",
+    description: "Swinburne",
     role: "learned stuff",
     url: "https://www.swinburne.edu.au/",
   },
@@ -65,6 +65,7 @@ const CompanyCard = ({ source, description, role, index, onSwipe }) => {
       onDragEnd={onSwipe}
       drag={index === 0}
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      dragElastic={0.3}
       transition={{
         type: "spring"
       }}
@@ -72,15 +73,15 @@ const CompanyCard = ({ source, description, role, index, onSwipe }) => {
         zIndex: LOGOS.length - index,
       }}
     >
-      <div className="w-full h-full flex flex-col justify-center items-center gap-8">
+      <div className="w-full h-full flex flex-col justify-center items-center gap-2 md:gap-8">
         <img
           src={source.src}
           alt={description}
           className="pointer-events-none"
         />
 
-        <p className="lowercase text-4xl font-semibold">{description}</p>
-        <p className="lowercase text-2xl font-light">{role}</p>
+        <p className="lowercase text-xl md:text-4xl font-semibold">{description}</p>
+        <p className="lowercase text-lg md:text-2xl font-light">{role}</p>
       </div>
     </motion.li>
   )
@@ -107,9 +108,9 @@ const Companies = () => {
   }
 
   return (
-    <div className="w-screen h-screen pt-[30vh] overflow-visible flex flex-col items-center">
+    <div className="w-screen h-screen pt-[35vh] overflow-visible flex flex-col items-center">
       <h2 className="text-[#4a230f] mb-12 text-2xl">have a little peruse...</h2>
-      <motion.ul ref={scope} className="max-w-2/3 max-h-2/3 h-128 w-80 grid grid-rows-1 grid-cols-1">
+      <motion.ul ref={scope} className="h-1/2 w-1/3 max-h-128 max-w-80 min-h-80 min-w-60 grid grid-rows-1 grid-cols-1">
         {logos.map((logo, index) => (
           <CompanyCard
             key={logo.url}
