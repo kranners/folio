@@ -31,12 +31,12 @@ import Cup from "./assets/cup.png";
 .glow {
   background: radial-gradient(
     circle at center, 
-    rgba(254, 243, 199, 100) 0%, 
+    rgba(254, 243, 199, 1) 0%, 
     rgba(102, 119, 97, 0) 40%
   );
 
   width: 80vw;
-  aspect-ratio: square;
+  aspect-ratio: 1 / 1;
 }
 
 .glow:hover {
@@ -45,7 +45,7 @@ import Cup from "./assets/cup.png";
 }
 </style>
 
-<div class="w-screen h-screen flex flex-col items-center justify-center">
+<div class="w-screen h-dvh flex flex-col items-center justify-center">
   <div class="ease-all glow float pointer-events-none w-screen h-[90vh] flex items-center justify-center">
     <a href="https://docs.cute.engineer">
       <Image 
