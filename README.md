@@ -8,7 +8,8 @@
   </p>
 </p>
 
-needlessly overcomplicated
+Needlessly overcomplicated, the gimmick is that it uses Astro islands to render
+with multiple frameworks.
 
 ### Local Setup
 

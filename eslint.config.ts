@@ -9,6 +9,14 @@ export default defineConfig(
   tseslint.configs.stylistic,
   prettier,
   {
-    ignores: ["node_modules", ".astro"],
+    ignores: ["node_modules", ".astro", "dist"],
+  },
+  {
+    files: ["**/*.jsx"],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
   },
 );

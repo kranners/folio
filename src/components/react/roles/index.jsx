@@ -20,9 +20,9 @@ const Y_OFFSET_KEYFRAMES = [
 
 const Roles = () => {
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-dvh flex items-center justify-center">
       <div className="text-3xl font-bold flex flex-row items-center gap-3 whitespace-nowrap overflow-hidden">
-        <span className="color-[#011c53]">im a</span>
+        <span className="text-[#011c53]">im a</span>
         <motion.ul
           animate={{
             y: Y_OFFSET_KEYFRAMES,
@@ -32,7 +32,7 @@ const Roles = () => {
             repeat: Infinity,
             duration: 10,
           }}
-          className="flex flex-col items-left h-10"
+          className="flex flex-col items-start h-10"
         >
           <li className="text-[#666666]">Software Developer</li>
           <li className="text-[#4285f4]">Computer Scientist</li>
