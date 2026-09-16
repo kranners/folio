@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from "react";
 
 import OnboardingHint from "../onboarding-hint/index.jsx";
 
-import { CardFace, CardBack, CARD_SIZE } from "./card-face.jsx";
+import { CardFace, CardBack } from "./card-face.jsx";
 import { getCardOffset } from "./deck.jsx";
 
 const DEAL_STAGGER_SECONDS = 0.12;
@@ -48,9 +48,7 @@ const HandCard = ({
 
   return (
     <motion.li
-      className={
-        "pointer-events-auto relative shrink-0 snap-center " + CARD_SIZE
-      }
+      className="pointer-events-auto relative shrink-0 snap-center card-size"
       style={{ perspective: 1000, zIndex: restingZIndex }}
       whileHover={{ zIndex: isGathering ? restingZIndex : depth + 1 }}
     >

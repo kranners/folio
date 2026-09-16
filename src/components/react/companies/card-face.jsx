@@ -1,7 +1,3 @@
-export const CARD_SIZE =
-  "w-[min(62vw,calc((80dvh_-_14rem)*3/4))] max-w-68 " +
-  "lg:w-[min(18vw,calc((80dvh_-_16rem)*3/4))] lg:max-w-88 aspect-3/4";
-
 const CardShell = ({ className, children }) => (
   <div
     className={`w-full h-full border-2 rounded-2xl p-5 bg-white shadow-xl flex flex-col justify-center items-center ${className}`}

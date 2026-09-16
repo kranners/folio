@@ -1,7 +1,7 @@
 import { motion, useAnimate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-import { CardFace, CARD_SIZE } from "./card-face.jsx";
+import { CardFace } from "./card-face.jsx";
 
 const CARD_OFFSET = 8;
 const CARD_OFFSET_DECAY = 0.8;
@@ -137,10 +137,7 @@ const Deck = ({ companies: initialCompanies, onRotate }) => {
   };
 
   return (
-    <motion.ul
-      ref={scope}
-      className={CARD_SIZE + " grid grid-rows-1 grid-cols-1"}
-    >
+    <motion.ul ref={scope} className="card-size grid grid-rows-1 grid-cols-1">
       {companies.map((company, index) => (
         <DeckCard
           key={company.url}
