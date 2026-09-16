@@ -48,7 +48,7 @@ const HandCard = ({
 
   return (
     <motion.li
-      className="pointer-events-auto relative shrink-0 snap-center card-size"
+      className="relative shrink-0 snap-center card-size"
       style={{ perspective: 1000, zIndex: restingZIndex }}
       whileHover={{ zIndex: isGathering ? restingZIndex : depth + 1 }}
     >
@@ -149,7 +149,7 @@ const Hand = ({
   return (
     <ul
       ref={scope}
-      className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
+      className="absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
     >
       {companies.map((company, index) => (
         <HandCard

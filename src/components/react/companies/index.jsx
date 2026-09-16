@@ -173,7 +173,7 @@ const Companies = () => {
 
   return (
     <div className="w-screen h-dvh pt-[calc(20dvh+5.5rem)] pb-6 overflow-visible flex flex-col items-center justify-center">
-      <div className="relative mb-8 flex items-center justify-center">
+      <div className="relative z-10 mb-8 flex items-center justify-center">
         <motion.div animate={{ opacity: hasSwiped ? 1 : 0 }}>
           <motion.button
             type="button"
