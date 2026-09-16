@@ -120,26 +120,15 @@ const pickRandom = (items, count) => {
   return shuffled.slice(0, count);
 };
 
-// No chrome of its own -- the drawing is the whole button.
 const BUTTON_CLASS_NAME =
   "block cursor-pointer transition-colors " +
   "disabled:cursor-default disabled:opacity-50";
 
-// The same spring the cards grow on, so reaching for the button feels like
-// reaching for a card rather than a piece of chrome.
 const BUTTON_HOVER = { scale: 1.1 };
 const BUTTON_SPRING = { type: "spring" };
 
-// Sized off its height so the icon keeps its drawn proportions, and kept short
-// enough that the button, its margin and a full-height card still clear an
-// iPhone SE. Block, so the row is the icon's height rather than the icon plus
-// a line box's descender.
 const BUTTON_ICON_SIZE = "block h-20 w-auto lg:h-28";
 
-// The drawing carries its pressed state in its own ink rather than in a border
-// or a fill behind it, which would sit as a machine-drawn shape against
-// hand-drawn strokes. White is the cards' own colour, so a hand that is out
-// reads as lit up against the blue behind it.
 const RESTING_INK = "text-[#4a230f]";
 const PRESSED_INK = "text-white";
 
@@ -150,23 +139,14 @@ const Companies = () => {
   const [deckCompanies, setDeckCompanies] = useState(COMPANIES);
   const deckRef = useRef(null);
 
-  // The deck's key. A count, not the order itself: two different gathers can
-  // land on the same order, and an unchanged key would leave the deck mounted
-  // with its own internal order still holding the old one.
   const [dealCount, setDealCount] = useState(0);
 
-  // Each of these is a one-way latch: once it has happened its nudge is gone
-  // for the rest of the visit.
   const [hasSwiped, setHasSwiped] = useState(false);
   const [hasDealt, setHasDealt] = useState(false);
   const [hasFlipped, setHasFlipped] = useState(false);
 
-  // The deck rotates under a swipe without remounting, so its live order lives
-  // in a ref. Re-keying the deck mid-swipe would cut the animation short.
   const orderRef = useRef(COMPANIES);
 
-  // The card on top is the one being looked at, so it leads the hand. Only the
-  // cards behind it are drawn at random.
   const deal = () => {
     const [top, ...rest] = orderRef.current;
     setHand([top, ...pickRandom(rest, HAND_SIZE - 1)]);
@@ -183,8 +163,6 @@ const Companies = () => {
 
   const onDealt = () => setIsDealing(false);
 
-  // The hand lands on the top slots of the stack, so the deck has to come back
-  // in that order for the swap to be invisible.
   const onGathered = () => {
     const dealt = new Set(hand.map((company) => company.url));
     const gathered = [
@@ -199,22 +177,9 @@ const Companies = () => {
     setIsGathering(false);
   };
 
-  // The logomark is centred a fifth of the way down the section and is 10rem
-  // tall, so clearing it costs its own half-height on top of that fifth. dvh,
-  // not vh, because that is what the logomark itself is placed against -- vh
-  // would push the column another 20% of the browser chrome down a phone.
-  //
-  // The bottom padding is the room the back of the stack hangs into. It is
-  // padding rather than slack because justify-center would only ever give the
-  // bottom half of any slack to the stack.
   return (
     <div className="w-screen h-dvh pt-[calc(20dvh+5.5rem)] pb-6 overflow-visible flex flex-col items-center justify-center">
-      {/* The button and the nudge that stands in for it share one box, so the
-          swap between them costs the row no height and the deck below never
-          moves. The box is only as wide as the button, which gives the nudge
-          beside it an edge to hang off. */}
       <div className="relative mb-8 flex items-center justify-center">
-        {/* There is nothing to deal until the deck has been touched. */}
         <motion.div animate={{ opacity: hasSwiped ? 1 : 0 }}>
           <motion.button
             type="button"
@@ -245,9 +210,6 @@ const Companies = () => {
         </div>
       </div>
 
-      {/* The deck never leaves, even while the hand is out. It holds the row's
-          place so nothing reflows, and it stays measurable so the cards can
-          deal from and return to exactly where it sits. */}
       <div className="relative flex items-center justify-center">
         <div
           ref={deckRef}

@@ -6,13 +6,10 @@ import OnboardingHint from "../onboarding-hint/index.jsx";
 import { CardFace, CardBack, CARD_SIZE } from "./card-face.jsx";
 import { getCardOffset } from "./deck.jsx";
 
-// Each card leaves the stack a beat after the one before it, so the hand reads
-// as dealt rather than as appearing all at once.
 const DEAL_STAGGER_SECONDS = 0.12;
 
 const FLIGHT = { type: "spring", bounce: 0.25 };
 
-// Cards land on the stack rather than bouncing off it.
 const LANDING = { type: "spring", bounce: 0 };
 
 const HIDE_BACKFACE = {
@@ -20,13 +17,11 @@ const HIDE_BACKFACE = {
   WebkitBackfaceVisibility: "hidden",
 };
 
-// Centres, rather than corners, because a scaled card grows about its middle.
 const getCentre = ({ x, y, width, height }) => ({
   x: x + width / 2,
   y: y + height / 2,
 });
 
-// Where a card has to sit to be its own slot in the stack.
 const getRestingOnDeck = (card, deckRect, index) => {
   const cardRect = card.getBoundingClientRect();
   const cardCentre = getCentre(cardRect);
@@ -57,9 +52,6 @@ const HandCard = ({
         "pointer-events-auto relative shrink-0 snap-center " + CARD_SIZE
       }
       style={{ perspective: 1000, zIndex: restingZIndex }}
-      // Hovering only has to bring the card forward of the one to its left.
-      // A gathering card gives that up again, so it does not land on top of a
-      // stack it is not the front of.
       whileHover={{ zIndex: isGathering ? restingZIndex : depth + 1 }}
     >
       <motion.button
@@ -93,8 +85,6 @@ const HandCard = ({
         </div>
       </motion.button>
 
-      {/* Outside the flipping button, so the nudge stays the right way round
-          while the card it is asking about turns over. */}
       {children}
     </motion.li>
   );
@@ -133,9 +123,6 @@ const Hand = ({
     );
   };
 
-  // Park every card on its own slot in the stack before the first paint, then
-  // send them out one at a time. Stated as explicit from/to keyframes so a card
-  // holds on the deck for the length of its delay.
   useLayoutEffect(() => {
     flyEveryCard((card, { x, y, scale }, index) =>
       animate(
@@ -144,11 +131,8 @@ const Hand = ({
         { ...FLIGHT, delay: index * DEAL_STAGGER_SECONDS },
       ),
     ).then(onDealt);
-    // Dealing happens once, when the hand first appears.
   }, []);
 
-  // Gathering is the reverse: the far end of the row goes back first, so the
-  // card that ends up on top of the stack is the last one to land.
   useLayoutEffect(() => {
     if (!isGathering) {
       return;
@@ -164,13 +148,6 @@ const Hand = ({
     ).then(onGathered);
   }, [isGathering]);
 
-  // pt-16 and -top-16 must match, so the row lands back over the deck it
-  // covers. The rest of the padding clears the cards' shadow, which scrolling
-  // sideways would otherwise clip.
-  //
-  // That padding reaches back over the deal button, so the row takes no clicks
-  // of its own -- only the cards in it do. Otherwise the bottom third of the
-  // only way back to the deck is dead.
   return (
     <ul
       ref={scope}
