@@ -122,7 +122,7 @@ const pickRandom = (items, count) => {
 
 // No chrome of its own -- the drawing is the whole button.
 const BUTTON_CLASS_NAME =
-  "cursor-pointer transition-colors " +
+  "block cursor-pointer transition-colors " +
   "disabled:cursor-default disabled:opacity-50";
 
 // The same spring the cards grow on, so reaching for the button feels like
@@ -132,8 +132,9 @@ const BUTTON_SPRING = { type: "spring" };
 
 // Sized off its height so the icon keeps its drawn proportions, and kept short
 // enough that the button, its margin and a full-height card still clear an
-// iPhone SE.
-const BUTTON_ICON_SIZE = "h-20 w-auto lg:h-28";
+// iPhone SE. Block, so the row is the icon's height rather than the icon plus
+// a line box's descender.
+const BUTTON_ICON_SIZE = "block h-20 w-auto lg:h-28";
 
 // The drawing carries its pressed state in its own ink rather than in a border
 // or a fill behind it, which would sit as a machine-drawn shape against
@@ -148,6 +149,11 @@ const Companies = () => {
   const [isGathering, setIsGathering] = useState(false);
   const [deckCompanies, setDeckCompanies] = useState(COMPANIES);
   const deckRef = useRef(null);
+
+  // The deck's key. A count, not the order itself: two different gathers can
+  // land on the same order, and an unchanged key would leave the deck mounted
+  // with its own internal order still holding the old one.
+  const [dealCount, setDealCount] = useState(0);
 
   // Each of these is a one-way latch: once it has happened its nudge is gone
   // for the rest of the visit.
@@ -188,17 +194,21 @@ const Companies = () => {
 
     orderRef.current = gathered;
     setDeckCompanies(gathered);
+    setDealCount((count) => count + 1);
     setHand(null);
     setIsGathering(false);
   };
 
-  const deckKey = deckCompanies.map((company) => company.url).join();
-
-  // The top padding only has to clear the logomark, which sits a fifth of the
-  // way down the section. Any more than that and the bottom of the stack falls
-  // off the end of a short viewport.
+  // The logomark is centred a fifth of the way down the section and is 10rem
+  // tall, so clearing it costs its own half-height on top of that fifth. dvh,
+  // not vh, because that is what the logomark itself is placed against -- vh
+  // would push the column another 20% of the browser chrome down a phone.
+  //
+  // The bottom padding is the room the back of the stack hangs into. It is
+  // padding rather than slack because justify-center would only ever give the
+  // bottom half of any slack to the stack.
   return (
-    <div className="w-screen h-dvh pt-[calc(20vh+2rem)] overflow-visible flex flex-col items-center justify-center">
+    <div className="w-screen h-dvh pt-[calc(20dvh+5.5rem)] pb-6 overflow-visible flex flex-col items-center justify-center">
       {/* The button and the nudge that stands in for it share one box, so the
           swap between them costs the row no height and the deck below never
           moves. The box is only as wide as the button, which gives the nudge
@@ -244,7 +254,7 @@ const Companies = () => {
           aria-hidden={Boolean(hand)}
           className={hand ? "opacity-0 pointer-events-none" : ""}
         >
-          <Deck key={deckKey} companies={deckCompanies} onRotate={onRotate} />
+          <Deck key={dealCount} companies={deckCompanies} onRotate={onRotate} />
         </div>
 
         {hand && (

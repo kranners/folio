@@ -53,7 +53,9 @@ const HandCard = ({
 
   return (
     <motion.li
-      className={"relative shrink-0 snap-center " + CARD_SIZE}
+      className={
+        "pointer-events-auto relative shrink-0 snap-center " + CARD_SIZE
+      }
       style={{ perspective: 1000, zIndex: restingZIndex }}
       // Hovering only has to bring the card forward of the one to its left.
       // A gathering card gives that up again, so it does not land on top of a
@@ -165,10 +167,14 @@ const Hand = ({
   // pt-16 and -top-16 must match, so the row lands back over the deck it
   // covers. The rest of the padding clears the cards' shadow, which scrolling
   // sideways would otherwise clip.
+  //
+  // That padding reaches back over the deal button, so the row takes no clicks
+  // of its own -- only the cards in it do. Otherwise the bottom third of the
+  // only way back to the deck is dead.
   return (
     <ul
       ref={scope}
-      className="absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
+      className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
     >
       {companies.map((company, index) => (
         <HandCard
