@@ -1,10 +1,6 @@
-// Hand-drawn by Aaron, cropped out of an A4 scan. The strokes take their
-// colour from the button around them.
-//
-// The scan traced thinner than the rest of the drawn work on the page, so the
-// outlines are stroked in their own fill colour as well. That widens every
-// line by the stroke width without touching the traced geometry, bringing the
-// pen up to the weight of the cards' own border.
+// Hand-drawn by Aaron, cropped out of an A4 scan. The scan traced thinner than
+// the rest of the drawn work, so the outlines are stroked in their own fill
+// colour to bring the pen up to the weight of the cards' border.
 const DealIcon = (props) => (
   <svg
     viewBox="-295.5 156.5 269.75 339.75"

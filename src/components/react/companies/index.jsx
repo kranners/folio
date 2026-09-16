@@ -20,95 +20,94 @@ import DealIcon from "./deal-icon.jsx";
 import Deck from "./deck.jsx";
 import Hand from "./hand.jsx";
 
-const LOGOS = [
+const COMPANIES = [
   {
-    source: PraxhubLogo,
-    description: "Praxhub",
+    logo: PraxhubLogo,
+    name: "Praxhub",
     role: "senior software engineer",
     url: "https://praxhub.com/",
     blurb: "CPD platform for doctors, reporting directly to the CTO",
   },
   {
-    source: InlightLogo,
-    description: "Inlight",
+    logo: InlightLogo,
+    name: "Inlight",
     role: "senior software engineer",
     url: "https://www.inlight.com.au/",
     blurb: "Digital agency, many projects & many PowerPoints",
   },
   {
-    source: NandosLogo,
-    description: "Nando's",
+    logo: NandosLogo,
+    name: "Nando's",
     role: "mid-level engineer",
     url: "https://www.nandos.com.au/",
     blurb: "AU/NZ React Native app & web ordering platforms",
   },
   {
-    source: MakeAWishLogo,
-    description: "Make-A-Wish",
+    logo: MakeAWishLogo,
+    name: "Make-A-Wish",
     role: "senior engineer, via inlight",
     url: "https://www.makeawish.org.au/",
     blurb: "Replatformed onto Astro, just like this site! 🚀",
   },
   {
-    source: TacLogo,
-    description: "TAC",
+    logo: TacLogo,
+    name: "TAC",
     role: "senior engineer, via inlight",
     url: "https://www.tac.vic.gov.au/",
     blurb: "Mobile-first interaction and motion heavy Next.js",
   },
   {
-    source: AhmLogo,
-    description: "AHM",
+    logo: AhmLogo,
+    name: "AHM",
     role: "senior engineer",
     url: "https://www.ahm.com.au/",
     blurb: "Sales, member sites and mobile app, integrated with Salesforce",
   },
   {
-    source: GoodHumanLogo,
-    description: "GoodHuman",
+    logo: GoodHumanLogo,
+    name: "GoodHuman",
     role: "software engineer",
     url: "https://goodhuman.me/",
     blurb: "NDIS platform. Full stack with Express, Knex, Prisma, React",
   },
   {
-    source: LivePresoLogo,
-    description: "LivePreso",
+    logo: LivePresoLogo,
+    name: "LivePreso",
     role: "full stack engineer",
     url: "https://www.livepreso.com/",
     blurb: "Front-end, port to iOS using Cordova, CI/CD, Bitrise, codesigning",
   },
   {
-    source: OriginEnergyLogo,
-    description: "Origin Energy",
+    logo: OriginEnergyLogo,
+    name: "Origin Energy",
     role: "engineer",
     url: "https://www.originenergy.com.au/",
     blurb: "Brief stint - React & internal libraries, ask me about this one!",
   },
   {
-    source: FutureGridLogo,
-    description: "Future Grid",
+    logo: FutureGridLogo,
+    name: "Future Grid",
     role: "devops engineer",
     url: "https://future-grid.com/",
     blurb: "Automating deployments saving manual days, K8s and Helm",
   },
   {
-    source: SeidoKarateLogo,
-    description: "Seido Karate",
+    logo: SeidoKarateLogo,
+    name: "Seido Karate",
     role: "admin and volunteer",
     url: "https://www.seidomelbourne.com.au/",
     blurb: "Teaching all ages as a volunteer instructor from 2016 to 2024.",
   },
   {
-    source: SwinburneLogo,
-    description: "Swinburne",
+    logo: SwinburneLogo,
+    name: "Swinburne",
     role: "bachelor of comp. sci",
     url: "https://www.swinburne.edu.au/",
     blurb: "Majoring in software development, graduated 2021.",
   },
 ];
 
-// A hand is five cards, or the whole deck if there aren't five to deal.
-const HAND_SIZE = Math.min(5, LOGOS.length);
+const HAND_SIZE = 5;
 
 const pickRandom = (items, count) => {
   const shuffled = [...items];
@@ -121,23 +120,25 @@ const pickRandom = (items, count) => {
   return shuffled.slice(0, count);
 };
 
-// No chrome of its own -- the drawing is the whole button. Sized off its
-// height so the icon keeps its drawn proportions, and kept short enough that
-// the button, its margin and a full-height card still clear an iPhone SE.
+// No chrome of its own -- the drawing is the whole button.
 const BUTTON_CLASS_NAME =
   "cursor-pointer transition-colors " +
   "disabled:cursor-default disabled:opacity-50";
 
 // The same spring the cards grow on, so reaching for the button feels like
-// reaching for a card rather than a piece of chrome. A CSS ease would arrive
-// and stop dead next to them.
+// reaching for a card rather than a piece of chrome.
 const BUTTON_HOVER = { scale: 1.1 };
 const BUTTON_SPRING = { type: "spring" };
 
-// The drawing carries the pressed state in its own ink rather than in a border
+// Sized off its height so the icon keeps its drawn proportions, and kept short
+// enough that the button, its margin and a full-height card still clear an
+// iPhone SE.
+const BUTTON_ICON_SIZE = "h-20 w-auto lg:h-28";
+
+// The drawing carries its pressed state in its own ink rather than in a border
 // or a fill behind it, which would sit as a machine-drawn shape against
-// hand-drawn strokes. Brown is the resting ink; white is the cards' own colour,
-// so a hand that is out reads as lit up against the blue behind it.
+// hand-drawn strokes. White is the cards' own colour, so a hand that is out
+// reads as lit up against the blue behind it.
 const RESTING_INK = "text-[#4a230f]";
 const PRESSED_INK = "text-white";
 
@@ -145,19 +146,18 @@ const Companies = () => {
   const [hand, setHand] = useState(null);
   const [isDealing, setIsDealing] = useState(false);
   const [isGathering, setIsGathering] = useState(false);
-  const [deckLogos, setDeckLogos] = useState(LOGOS);
+  const [deckCompanies, setDeckCompanies] = useState(COMPANIES);
   const deckRef = useRef(null);
 
-  // The three things there are to learn here, in the order they can be done.
-  // Each one is a one-way latch: once it has happened its nudge is gone for
-  // the rest of the visit.
+  // Each of these is a one-way latch: once it has happened its nudge is gone
+  // for the rest of the visit.
   const [hasSwiped, setHasSwiped] = useState(false);
   const [hasDealt, setHasDealt] = useState(false);
   const [hasFlipped, setHasFlipped] = useState(false);
 
   // The deck rotates under a swipe without remounting, so its live order lives
   // in a ref. Re-keying the deck mid-swipe would cut the animation short.
-  const orderRef = useRef(LOGOS);
+  const orderRef = useRef(COMPANIES);
 
   // The card on top is the one being looked at, so it leads the hand. Only the
   // cards behind it are drawn at random.
@@ -170,8 +170,8 @@ const Companies = () => {
 
   const gather = () => setIsGathering(true);
 
-  const onRotate = (logos) => {
-    orderRef.current = logos;
+  const onRotate = (companies) => {
+    orderRef.current = companies;
     setHasSwiped(true);
   };
 
@@ -180,21 +180,23 @@ const Companies = () => {
   // The hand lands on the top slots of the stack, so the deck has to come back
   // in that order for the swap to be invisible.
   const onGathered = () => {
-    const dealt = new Set(hand.map((logo) => logo.url));
+    const dealt = new Set(hand.map((company) => company.url));
     const gathered = [
       ...hand,
-      ...orderRef.current.filter((logo) => !dealt.has(logo.url)),
+      ...orderRef.current.filter((company) => !dealt.has(company.url)),
     ];
 
     orderRef.current = gathered;
-    setDeckLogos(gathered);
+    setDeckCompanies(gathered);
     setHand(null);
     setIsGathering(false);
   };
 
+  const deckKey = deckCompanies.map((company) => company.url).join();
+
   // The top padding only has to clear the logomark, which sits a fifth of the
-  // way down the section. Any more than that and the bottom of the stack -- its
-  // offset cards and their shadow -- falls off the end of a short viewport.
+  // way down the section. Any more than that and the bottom of the stack falls
+  // off the end of a short viewport.
   return (
     <div className="w-screen h-dvh pt-[calc(20vh+2rem)] overflow-visible flex flex-col items-center justify-center">
       {/* The button and the nudge that stands in for it share one box, so the
@@ -202,12 +204,8 @@ const Companies = () => {
           moves. The box is only as wide as the button, which gives the nudge
           beside it an edge to hang off. */}
       <div className="relative mb-8 flex items-center justify-center">
-        {/* There is nothing to deal until the deck has been touched, so until
-            then the button is not there to be pressed. */}
-        <motion.div
-          animate={{ opacity: hasSwiped ? 1 : 0 }}
-          className={hasSwiped ? "" : "pointer-events-none"}
-        >
+        {/* There is nothing to deal until the deck has been touched. */}
+        <motion.div animate={{ opacity: hasSwiped ? 1 : 0 }}>
           <motion.button
             type="button"
             onClick={hand ? gather : deal}
@@ -220,7 +218,7 @@ const Companies = () => {
             whileHover={BUTTON_HOVER}
             transition={BUTTON_SPRING}
           >
-            <DealIcon className="h-20 w-auto lg:h-28" />
+            <DealIcon className={BUTTON_ICON_SIZE} />
           </motion.button>
         </motion.div>
 
@@ -242,20 +240,16 @@ const Companies = () => {
           deal from and return to exactly where it sits. */}
       <div className="relative flex items-center justify-center">
         <div
+          ref={deckRef}
           aria-hidden={Boolean(hand)}
           className={hand ? "opacity-0 pointer-events-none" : ""}
         >
-          <Deck
-            key={deckLogos.map((logo) => logo.url).join()}
-            ref={deckRef}
-            logos={deckLogos}
-            onRotate={onRotate}
-          />
+          <Deck key={deckKey} companies={deckCompanies} onRotate={onRotate} />
         </div>
 
         {hand && (
           <Hand
-            logos={hand}
+            companies={hand}
             deckRef={deckRef}
             isGathering={isGathering}
             hasFlipped={hasFlipped}

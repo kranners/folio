@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from "react";
 
 import OnboardingHint from "../onboarding-hint/index.jsx";
 
-import CardFace, { CardBack, CARD_SIZE } from "./card-face.jsx";
+import { CardFace, CardBack, CARD_SIZE } from "./card-face.jsx";
 import { getCardOffset } from "./deck.jsx";
 
 // Each card leaves the stack a beat after the one before it, so the hand reads
@@ -12,105 +12,94 @@ const DEAL_STAGGER_SECONDS = 0.12;
 
 const FLIGHT = { type: "spring", bounce: 0.25 };
 
-// Cards land on the stack rather than bouncing off it, so the return settles
-// into the deck instead of overshooting it.
+// Cards land on the stack rather than bouncing off it.
 const LANDING = { type: "spring", bounce: 0 };
 
-const FACE_STYLE = {
+const HIDE_BACKFACE = {
   backfaceVisibility: "hidden",
   WebkitBackfaceVisibility: "hidden",
 };
 
-// Where a card has to sit to be its own slot in the stack. Matched by centre,
-// not by corner, because a scaled card grows about its middle -- lining the
-// left edges up would leave it half the size difference out of place.
-const getRestingOnDeck = (element, deck, index) => {
-  const card = element.getBoundingClientRect();
+// Centres, rather than corners, because a scaled card grows about its middle.
+const getCentre = ({ x, y, width, height }) => ({
+  x: x + width / 2,
+  y: y + height / 2,
+});
+
+// Where a card has to sit to be its own slot in the stack.
+const getRestingOnDeck = (card, deckRect, index) => {
+  const cardRect = card.getBoundingClientRect();
+  const cardCentre = getCentre(cardRect);
+  const deckCentre = getCentre(deckRect);
   const offset = getCardOffset(index);
 
   return {
-    x: deck.x + offset + deck.width / 2 - (card.x + card.width / 2),
-    y: deck.y + offset + deck.height / 2 - (card.y + card.height / 2),
-    scale: deck.width / card.width,
+    x: deckCentre.x + offset - cardCentre.x,
+    y: deckCentre.y + offset - cardCentre.y,
+    scale: deckRect.width / cardRect.width,
   };
 };
 
 const HandCard = ({
-  logo,
+  company,
   depth,
   index,
   isFlipped,
   isGathering,
-  hint,
   onFlip,
+  children,
 }) => {
-  const onKeyDown = (event) => {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    onFlip();
-  };
+  const restingZIndex = depth - index;
 
   return (
     <motion.li
-      role="button"
-      tabIndex={0}
-      aria-pressed={isFlipped}
-      aria-label={`flip ${logo.description}`}
-      onClick={onFlip}
-      onKeyDown={onKeyDown}
-      className={"relative shrink-0 snap-center cursor-pointer " + CARD_SIZE}
-      style={{ perspective: 1000, zIndex: depth - index }}
-      // The li's own transform belongs to the deal and the gather, so the
-      // hover lives on the wrapper below. All this needs is to come forward,
-      // or the card to its left would be grown over the top of it.
-      //
-      // A gathering card gives that up again: it is landing on its own slot in
-      // the stack, and a card held at the front of a stack it is not the front
-      // of would vanish behind the others the moment the deck takes over.
-      // Stated as a value rather than dropped so a card already under the
-      // pointer settles back too, instead of staying where the hover left it.
-      whileHover={{ zIndex: isGathering ? depth - index : depth + 1 }}
+      className={"relative shrink-0 snap-center " + CARD_SIZE}
+      style={{ perspective: 1000, zIndex: restingZIndex }}
+      // Hovering only has to bring the card forward of the one to its left.
+      // A gathering card gives that up again, so it does not land on top of a
+      // stack it is not the front of.
+      whileHover={{ zIndex: isGathering ? restingZIndex : depth + 1 }}
     >
-      <motion.div
-        className="relative w-full h-full"
+      <motion.button
+        type="button"
+        aria-pressed={isFlipped}
+        aria-label={`flip ${company.name}`}
+        onClick={onFlip}
+        className="relative w-full h-full cursor-pointer"
         style={{ transformStyle: "preserve-3d" }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         whileHover={{ scale: isGathering ? 1 : 1.1 }}
         transition={FLIGHT}
       >
-        <div className="absolute inset-0" style={FACE_STYLE}>
+        <div className="absolute inset-0" style={HIDE_BACKFACE}>
           <CardFace
-            source={logo.source}
-            description={logo.description}
-            role={logo.role}
+            logo={company.logo}
+            name={company.name}
+            role={company.role}
           />
         </div>
 
         <div
           className="absolute inset-0"
-          style={{ ...FACE_STYLE, transform: "rotateY(180deg)" }}
+          style={{ ...HIDE_BACKFACE, transform: "rotateY(180deg)" }}
         >
           <CardBack
-            source={logo.source}
-            description={logo.description}
-            blurb={logo.blurb}
+            logo={company.logo}
+            name={company.name}
+            blurb={company.blurb}
           />
         </div>
-      </motion.div>
+      </motion.button>
 
-      {/* Outside the flipping wrapper, so the nudge stays the right way round
-          while the card it is asking about turns over. It floats clear of the
-          card's top edge rather than sitting over the face. */}
-      {hint}
+      {/* Outside the flipping button, so the nudge stays the right way round
+          while the card it is asking about turns over. */}
+      {children}
     </motion.li>
   );
 };
 
 const Hand = ({
-  logos,
+  companies,
   deckRef,
   isGathering,
   hasFlipped,
@@ -126,29 +115,32 @@ const Hand = ({
     onFlip();
   };
 
-  // Park every card on its own slot in the stack before the first paint, then
-  // send them out one at a time. Laying the offsets in during a layout effect
-  // keeps the row from flashing into place first.
-  useLayoutEffect(() => {
-    const deck = deckRef.current.getBoundingClientRect();
+  const flyEveryCard = (animateCard) => {
+    const deckRect = deckRef.current.getBoundingClientRect();
     const cards = [...scope.current.querySelectorAll("li")];
 
-    // The hand can't be gathered until it has landed: the offsets below are
-    // measured off a card sitting still, so a return that starts mid-flight
-    // would aim at the wrong place.
-    Promise.all(
-      cards.map((card, index) => {
-        const { x, y, scale } = getRestingOnDeck(card, deck, index);
-
-        // Stated as explicit from/to keyframes so the card holds on the deck
-        // for the length of its delay instead of starting from wherever it
-        // renders.
-        return animate(
+    return Promise.all(
+      cards.map((card, index) =>
+        animateCard(
           card,
-          { x: [x, 0], y: [y, 0], scale: [scale, 1] },
-          { ...FLIGHT, delay: index * DEAL_STAGGER_SECONDS },
-        );
-      }),
+          getRestingOnDeck(card, deckRect, index),
+          index,
+          cards.length,
+        ),
+      ),
+    );
+  };
+
+  // Park every card on its own slot in the stack before the first paint, then
+  // send them out one at a time. Stated as explicit from/to keyframes so a card
+  // holds on the deck for the length of its delay.
+  useLayoutEffect(() => {
+    flyEveryCard((card, { x, y, scale }, index) =>
+      animate(
+        card,
+        { x: [x, 0], y: [y, 0], scale: [scale, 1] },
+        { ...FLIGHT, delay: index * DEAL_STAGGER_SECONDS },
+      ),
     ).then(onDealt);
     // Dealing happens once, when the hand first appears.
   }, []);
@@ -160,56 +152,42 @@ const Hand = ({
       return;
     }
 
-    const deck = deckRef.current.getBoundingClientRect();
-    const cards = [...scope.current.querySelectorAll("li")];
-
     setFlipped({});
 
-    Promise.all(
-      cards.map((card, index) =>
-        animate(card, getRestingOnDeck(card, deck, index), {
-          ...LANDING,
-          delay: (cards.length - 1 - index) * DEAL_STAGGER_SECONDS,
-        }),
-      ),
+    flyEveryCard((card, resting, index, count) =>
+      animate(card, resting, {
+        ...LANDING,
+        delay: (count - 1 - index) * DEAL_STAGGER_SECONDS,
+      }),
     ).then(onGathered);
   }, [isGathering]);
 
-  // Scrolling sideways makes this a scroll container, which clips the other
-  // axis too -- so the cards' shadow has to fit inside the padding, and so
-  // does the nudge floating above the first card. The bottom needs the most
-  // room: a card starts the deal sitting on its slot in the stack, up to a
-  // whole stack offset below where it lands, and its shadow reaches a good way
-  // further down again.
-  //
-  // Anchored by its top edge rather than centred on its own box, so the extra
-  // room below doesn't drag the row down with it. A card is as tall as the
-  // deck it covers, so pulling the box up by its own top padding lines the two
-  // up exactly.
+  // pt-16 and -top-16 must match, so the row lands back over the deck it
+  // covers. The rest of the padding clears the cards' shadow, which scrolling
+  // sideways would otherwise clip.
   return (
     <ul
       ref={scope}
       className="absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
     >
-      {logos.map((logo, index) => (
+      {companies.map((company, index) => (
         <HandCard
-          key={logo.url}
-          logo={logo}
+          key={company.url}
+          company={company}
           index={index}
-          depth={logos.length}
-          isFlipped={Boolean(flipped[logo.url])}
+          depth={companies.length}
+          isFlipped={Boolean(flipped[company.url])}
           isGathering={isGathering}
-          hint={
-            index === 0 && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-full mb-2 flex justify-center">
-                <OnboardingHint isVisible={!hasFlipped}>
-                  tap me to flip
-                </OnboardingHint>
-              </div>
-            )
-          }
-          onFlip={() => toggleFlip(logo.url)}
-        />
+          onFlip={() => toggleFlip(company.url)}
+        >
+          {index === 0 && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-full mb-2 flex justify-center">
+              <OnboardingHint isVisible={!hasFlipped}>
+                tap me to flip
+              </OnboardingHint>
+            </div>
+          )}
+        </HandCard>
       ))}
     </ul>
   );

@@ -5,9 +5,8 @@ import OnboardingHint from "../onboarding-hint/index.jsx";
 // Half a frame along is far enough that the nudge has clearly been taken.
 const FADE_AT_PROGRESS = 0.5;
 
-// A nudge to keep scrolling, which leaves once the reader is on their way to
-// the next frame. It finds the frame it was dropped into rather than being
-// told, so it can be dropped into any of them.
+// A nudge to keep scrolling. It finds the frame it was dropped into rather than
+// being told, so it can be dropped into any of them.
 const ScrollHint = ({ className = "", text }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -23,9 +22,6 @@ const ScrollHint = ({ className = "", text }) => {
     const container = frame.parentElement;
 
     const onScroll = () => {
-      // How far the frame has travelled off the top of the scroller, measured
-      // against the two boxes as they sit rather than against offsets, which
-      // answer to whichever ancestor happens to be positioned.
       const scrolled =
         container.getBoundingClientRect().top -
         frame.getBoundingClientRect().top;

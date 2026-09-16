@@ -1,7 +1,7 @@
 import { motion, useAnimate } from "motion/react";
 import { useState } from "react";
 
-import CardFace, { CARD_SIZE } from "./card-face.jsx";
+import { CardFace, CARD_SIZE } from "./card-face.jsx";
 
 const CARD_OFFSET = 8;
 const CARD_OFFSET_DECAY = 0.8;
@@ -28,7 +28,7 @@ const getCardStateAtIndex = (index) => ({
   z: index,
 });
 
-const DeckCard = ({ logo, index, depth, onSwipe }) => {
+const DeckCard = ({ company, index, depth, onSwipe }) => {
   const isFirstCard = index === 0;
   const pointerEventsClassName = isFirstCard ? "" : "pointer-events-none";
 
@@ -55,63 +55,46 @@ const DeckCard = ({ logo, index, depth, onSwipe }) => {
         zIndex: depth - index,
       }}
     >
-      <CardFace
-        source={logo.source}
-        description={logo.description}
-        role={logo.role}
-      />
+      <CardFace logo={company.logo} name={company.name} role={company.role} />
     </motion.li>
   );
 };
 
-const Deck = ({ logos: initialLogos, ref, onRotate }) => {
+const Deck = ({ companies: initialCompanies, onRotate }) => {
   const [scope, animate] = useAnimate();
-  const [logos, setLogos] = useState(initialLogos);
+  const [companies, setCompanies] = useState(initialCompanies);
 
-  const animateLogos = () => {
+  const animateCompanies = () => {
     // The front card goes to the back, everything else moves forward one place.
-    animate("li:nth-child(1)", getCardStateAtIndex(logos.length - 1));
+    animate("li:nth-child(1)", getCardStateAtIndex(companies.length - 1));
 
-    logos.slice(1).forEach((_, position) => {
+    companies.slice(1).forEach((_, position) => {
       animate(`li:nth-child(${position + 2})`, getCardStateAtIndex(position));
     });
   };
 
-  const rotateLogos = () => {
-    animateLogos();
+  const rotateCompanies = () => {
+    animateCompanies();
 
-    const newLogos = [...logos];
-    newLogos.push(newLogos.shift());
-    setLogos(newLogos);
+    const rotated = [...companies];
+    rotated.push(rotated.shift());
 
-    // The stack rotates in here, so whoever owns the deck has to be told what
-    // is on top now.
-    if (onRotate) {
-      onRotate(newLogos);
-    }
-  };
-
-  // The hand needs to know where the stack sat so it can deal cards out of it.
-  const attachRef = (element) => {
-    scope.current = element;
-
-    if (ref) {
-      ref.current = element;
-    }
+    setCompanies(rotated);
+    onRotate(rotated);
   };
 
   return (
     <motion.ul
-      ref={attachRef}
+      ref={scope}
       className={CARD_SIZE + " grid grid-rows-1 grid-cols-1"}
     >
-      {logos.map((logo, index) => (
+      {companies.map((company, index) => (
         <DeckCard
-          key={logo.url}
-          logo={logo}
+          key={company.url}
+          company={company}
           index={index}
-          depth={logos.length}
-          onSwipe={rotateLogos}
+          depth={companies.length}
+          onSwipe={rotateCompanies}
         />
       ))}
     </motion.ul>
