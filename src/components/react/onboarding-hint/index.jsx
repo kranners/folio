@@ -1,15 +1,11 @@
 import { motion } from "motion/react";
 
-const HINT_CLASS_NAME =
-  "select-none pointer-events-none lowercase whitespace-nowrap " +
-  "text-lg md:text-xl font-semibold text-[#011c53]";
-
 const FADE = { duration: 0.4 };
 
-const OnboardingHint = ({ isVisible, className = "", children }) => {
+const OnboardingHint = ({ isVisible, children }) => {
   return (
     <motion.p
-      className={HINT_CLASS_NAME + " " + className}
+      className="select-none pointer-events-none lowercase whitespace-nowrap text-lg md:text-xl font-semibold text-[#011c53]"
       initial={{ opacity: 0 }}
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={FADE}

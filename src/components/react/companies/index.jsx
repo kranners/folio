@@ -120,14 +120,8 @@ const pickRandom = (items, count) => {
   return shuffled.slice(0, count);
 };
 
-const BUTTON_CLASS_NAME =
-  "block cursor-pointer transition-colors " +
-  "disabled:cursor-default disabled:opacity-50";
-
 const BUTTON_HOVER = { scale: 1.1 };
 const BUTTON_SPRING = { type: "spring" };
-
-const BUTTON_ICON_SIZE = "block h-20 w-auto lg:h-28";
 
 const RESTING_INK = "text-[#4a230f]";
 const PRESSED_INK = "text-white";
@@ -187,13 +181,11 @@ const Companies = () => {
             disabled={!hasSwiped || isDealing || isGathering}
             aria-pressed={Boolean(hand)}
             aria-label={hand ? "return to deck" : "deal a hand"}
-            className={
-              BUTTON_CLASS_NAME + " " + (hand ? PRESSED_INK : RESTING_INK)
-            }
+            className={`block cursor-pointer transition-colors disabled:cursor-default disabled:opacity-50 ${hand ? PRESSED_INK : RESTING_INK}`}
             whileHover={BUTTON_HOVER}
             transition={BUTTON_SPRING}
           >
-            <DealIcon className={BUTTON_ICON_SIZE} />
+            <DealIcon className="block h-20 w-auto lg:h-28" />
           </motion.button>
         </motion.div>
 
