@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* The deck and each hand slot share one card footprint; card faces fill it. */
+@utility card-size {
+  width: min(62vw, calc((80dvh - 14rem) * 3 / 4));
+  max-width: calc(var(--spacing) * 68);
+  aspect-ratio: 3 / 4;
+
+  @variant lg {
+    width: min(18vw, calc((80dvh - 16rem) * 3 / 4));
+    max-width: calc(var(--spacing) * 88);
+  }
+}

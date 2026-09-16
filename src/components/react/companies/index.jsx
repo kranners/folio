@@ -1,189 +1,228 @@
-import { motion, useAnimate } from "motion/react";
+import { motion } from "motion/react";
+import { useRef, useState } from "react";
 
-import FutureGridLogo from "./logos/future-grid.png";
-import LivePresoLogo from "./logos/livepreso.png";
+import PraxhubLogo from "./logos/praxhub.png";
 import InlightLogo from "./logos/inlight.jpg";
+import NandosLogo from "./logos/nandos.png";
+import MakeAWishLogo from "./logos/make-a-wish.png";
+import TacLogo from "./logos/tac.png";
+import AhmLogo from "./logos/ahm.png";
+import GoodHumanLogo from "./logos/goodhuman.png";
+import LivePresoLogo from "./logos/livepreso.png";
+import OriginEnergyLogo from "./logos/origin-energy.png";
+import FutureGridLogo from "./logos/future-grid.png";
 import SeidoKarateLogo from "./logos/seido-karate.png";
 import SwinburneLogo from "./logos/swinburne.png";
-import { useState } from "react";
 
-const LOGOS = [
+import OnboardingHint from "../onboarding-hint/index.jsx";
+
+import DealIcon from "./deal-icon.jsx";
+import Deck from "./deck.jsx";
+import Hand from "./hand.jsx";
+
+const COMPANIES = [
   {
-    source: FutureGridLogo,
-    description: "Future Grid",
-    role: "devops engineer",
-    url: "https://future-grid.com/",
+    logo: PraxhubLogo,
+    name: "Praxhub",
+    role: "senior software engineer",
+    url: "https://praxhub.com/",
+    blurb: "CPD platform for doctors, reporting directly to the CTO",
   },
   {
-    source: LivePresoLogo,
-    description: "LivePreso",
+    logo: InlightLogo,
+    name: "Inlight",
+    role: "senior software engineer",
+    url: "https://www.inlight.com.au/",
+    blurb: "Digital agency, many projects & many PowerPoints",
+  },
+  {
+    logo: NandosLogo,
+    name: "Nando's",
+    role: "mid-level engineer",
+    url: "https://www.nandos.com.au/",
+    blurb: "AU/NZ React Native app & web ordering platforms",
+  },
+  {
+    logo: MakeAWishLogo,
+    name: "Make-A-Wish",
+    role: "senior engineer, via inlight",
+    url: "https://www.makeawish.org.au/",
+    blurb: "Replatformed onto Astro, just like this site! 🚀",
+  },
+  {
+    logo: TacLogo,
+    name: "TAC",
+    role: "senior engineer, via inlight",
+    url: "https://www.tac.vic.gov.au/",
+    blurb: "Mobile-first interaction and motion heavy Next.js",
+  },
+  {
+    logo: AhmLogo,
+    name: "AHM",
+    role: "senior engineer",
+    url: "https://www.ahm.com.au/",
+    blurb: "Sales, member sites and mobile app, integrated with Salesforce",
+  },
+  {
+    logo: GoodHumanLogo,
+    name: "GoodHuman",
+    role: "software engineer",
+    url: "https://goodhuman.me/",
+    blurb: "NDIS platform. Full stack with Express, Knex, Prisma, React",
+  },
+  {
+    logo: LivePresoLogo,
+    name: "LivePreso",
     role: "full stack engineer",
     url: "https://www.livepreso.com/",
+    blurb: "Front-end, port to iOS using Cordova, CI/CD, Bitrise, codesigning",
   },
   {
-    source: InlightLogo,
-    description: "Inlight",
-    role: "senior engineer",
-    url: "https://www.inlight.com.au/",
+    logo: OriginEnergyLogo,
+    name: "Origin Energy",
+    role: "engineer",
+    url: "https://www.originenergy.com.au/",
+    blurb: "Brief stint - React & internal libraries, ask me about this one!",
   },
   {
-    source: SeidoKarateLogo,
-    description: "Seido Karate",
+    logo: FutureGridLogo,
+    name: "Future Grid",
+    role: "devops engineer",
+    url: "https://future-grid.com/",
+    blurb: "Automating deployments saving manual days, K8s and Helm",
+  },
+  {
+    logo: SeidoKarateLogo,
+    name: "Seido Karate",
     role: "admin and volunteer",
     url: "https://www.seidomelbourne.com.au/",
+    blurb: "Teaching all ages as a volunteer instructor from 2016 to 2024.",
   },
   {
-    source: SwinburneLogo,
-    description: "Swinburne",
+    logo: SwinburneLogo,
+    name: "Swinburne",
     role: "bachelor of comp. sci",
     url: "https://www.swinburne.edu.au/",
+    blurb: "Majoring in software development, graduated 2021.",
   },
-  // {
-  //   source: FutureGridLogo,
-  //   description: "foo corp",
-  //   role: "foo engineer",
-  //   url: "https://example.com/foo",
-  // },
-  // {
-  //   source: LivePresoLogo,
-  //   description: "bar industries",
-  //   role: "bar wrangler",
-  //   url: "https://example.com/bar",
-  // },
-  // {
-  //   source: InlightLogo,
-  //   description: "baz labs",
-  //   role: "baz technician",
-  //   url: "https://example.com/baz",
-  // },
-  // {
-  //   source: SeidoKarateLogo,
-  //   description: "qux group",
-  //   role: "qux specialist",
-  //   url: "https://example.com/qux",
-  // },
-  // {
-  //   source: SwinburneLogo,
-  //   description: "quux holdings",
-  //   role: "quux analyst",
-  //   url: "https://example.com/quux",
-  // },
-  // {
-  //   source: FutureGridLogo,
-  //   description: "corge co",
-  //   role: "corge operator",
-  //   url: "https://example.com/corge",
-  // },
 ];
 
-const CARD_OFFSET = 8;
-const CARD_OFFSET_DECAY = 0.8;
+const HAND_SIZE = 5;
 
-// Past this depth cards sit flat against each other and fade out, so a deep
-// deck doesn't read as a smear of overlapping borders.
-const MAX_VISIBLE_DEPTH = 4;
+const pickRandom = (items, count) => {
+  const shuffled = [...items];
 
-// Each card sits a little closer to the one in front of it than the last, so
-// the stack tapers off instead of fanning out forever.
-const getCardOffset = (index) => {
-  const depth = Math.min(index, MAX_VISIBLE_DEPTH);
-  return (
-    (CARD_OFFSET * (1 - CARD_OFFSET_DECAY ** depth)) / (1 - CARD_OFFSET_DECAY)
-  );
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swap]] = [shuffled[swap], shuffled[index]];
+  }
+
+  return shuffled.slice(0, count);
 };
 
-const getCardStateAtIndex = (index) => ({
-  x: getCardOffset(index),
-  y: getCardOffset(index),
-  rotate: 0,
-  scale: 1,
-  opacity: index > MAX_VISIBLE_DEPTH ? 0 : 1,
-  z: index,
-});
+const BUTTON_HOVER = { scale: 1.1 };
+const BUTTON_SPRING = { type: "spring" };
 
-const CompanyCard = ({ source, description, role, index, onSwipe }) => {
-  const isFirstCard = index === 0;
-  const pointerEventsClassName = isFirstCard ? "" : "pointer-events-none";
-
-  return (
-    <motion.li
-      className={
-        "border-2 rounded-2xl p-5 row-start-1 row-end-1 col-start-1 col-end-1 bg-white shadow-xl " +
-        pointerEventsClassName
-      }
-      initial={getCardStateAtIndex(index)}
-      whileHover={{
-        scale: 1.1,
-      }}
-      whileDrag={{
-        scale: 1.1,
-      }}
-      onDragEnd={onSwipe}
-      drag={index === 0}
-      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-      dragElastic={0.3}
-      transition={{
-        type: "spring",
-      }}
-      style={{
-        zIndex: LOGOS.length - index,
-      }}
-    >
-      <div className="w-full h-full flex flex-col justify-center items-center gap-2 md:gap-5">
-        <img
-          src={source.src}
-          alt={description}
-          className="pointer-events-none p-2 max-w-1/2"
-        />
-
-        <p className="lowercase text-xl md:text-2xl font-semibold">
-          {description}
-        </p>
-        <p className="lowercase text-base md:text-xl font-light">{role}</p>
-      </div>
-    </motion.li>
-  );
-};
+const RESTING_INK = "text-[#4a230f]";
+const PRESSED_INK = "text-white";
 
 const Companies = () => {
-  const [scope, animate] = useAnimate();
-  const [logos, setLogos] = useState(LOGOS);
+  const [hand, setHand] = useState(null);
+  const [isDealing, setIsDealing] = useState(false);
+  const [isGathering, setIsGathering] = useState(false);
+  const [deckCompanies, setDeckCompanies] = useState(COMPANIES);
+  const deckRef = useRef(null);
 
-  const animateLogos = () => {
-    // The front card goes to the back, everything else moves forward one place.
-    animate("li:nth-child(1)", getCardStateAtIndex(logos.length - 1));
+  const [dealCount, setDealCount] = useState(0);
 
-    logos.slice(1).forEach((_, position) => {
-      animate(`li:nth-child(${position + 2})`, getCardStateAtIndex(position));
-    });
+  const [hasSwiped, setHasSwiped] = useState(false);
+  const [hasDealt, setHasDealt] = useState(false);
+  const [hasFlipped, setHasFlipped] = useState(false);
+
+  const orderRef = useRef(COMPANIES);
+
+  const deal = () => {
+    const [top, ...rest] = orderRef.current;
+    setHand([top, ...pickRandom(rest, HAND_SIZE - 1)]);
+    setIsDealing(true);
+    setHasDealt(true);
   };
 
-  const rotateLogos = () => {
-    animateLogos();
+  const gather = () => setIsGathering(true);
 
-    const newLogos = [...logos];
-    newLogos.push(newLogos.shift());
-    setLogos(newLogos);
+  const onRotate = (companies) => {
+    orderRef.current = companies;
+    setHasSwiped(true);
+  };
+
+  const onDealt = () => setIsDealing(false);
+
+  const onGathered = () => {
+    const dealt = new Set(hand.map((company) => company.url));
+    const gathered = [
+      ...hand,
+      ...orderRef.current.filter((company) => !dealt.has(company.url)),
+    ];
+
+    orderRef.current = gathered;
+    setDeckCompanies(gathered);
+    setDealCount((count) => count + 1);
+    setHand(null);
+    setIsGathering(false);
   };
 
   return (
-    <div className="w-screen h-dvh pt-[calc(20vh+7rem)] overflow-visible flex flex-col items-center justify-center">
-      <h2 className="text-[#4a230f] mb-8 text-xl">have a little peruse...</h2>
-      <motion.ul
-        ref={scope}
-        className="h-1/3 w-1/4 md:h-2/3 md:w-1/3 lg:h-2/3 lg:w-1/4 max-h-94 max-w-68 min-h-68 min-w-52 grid grid-rows-1 grid-cols-1"
-      >
-        {logos.map((logo, index) => (
-          <CompanyCard
-            key={logo.url}
-            source={logo.source}
-            description={logo.description}
-            role={logo.role}
-            index={index}
-            onSwipe={rotateLogos}
+    <div className="w-screen h-dvh pt-[calc(20dvh+5.5rem)] pb-6 overflow-visible flex flex-col items-center justify-center">
+      <div className="relative z-10 mb-8 flex items-center justify-center">
+        <motion.div animate={{ opacity: hasSwiped ? 1 : 0 }}>
+          <motion.button
+            type="button"
+            onClick={hand ? gather : deal}
+            disabled={!hasSwiped || isDealing || isGathering}
+            aria-pressed={Boolean(hand)}
+            aria-label={hand ? "return to deck" : "deal a hand"}
+            className={`block cursor-pointer transition-colors disabled:cursor-default disabled:opacity-50 ${hand ? PRESSED_INK : RESTING_INK}`}
+            whileHover={BUTTON_HOVER}
+            transition={BUTTON_SPRING}
+          >
+            <DealIcon className="block h-20 w-auto lg:h-28" />
+          </motion.button>
+        </motion.div>
+
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <OnboardingHint isVisible={!hasSwiped}>
+            try swiping around :)
+          </OnboardingHint>
+        </div>
+
+        <div className="pointer-events-none absolute left-full top-1/2 ml-4 -translate-y-1/2">
+          <OnboardingHint isVisible={hasSwiped && !hasDealt}>
+            👈 click me
+          </OnboardingHint>
+        </div>
+      </div>
+
+      <div className="relative flex items-center justify-center">
+        <div
+          ref={deckRef}
+          aria-hidden={Boolean(hand)}
+          className={hand ? "opacity-0 pointer-events-none" : ""}
+        >
+          <Deck key={dealCount} companies={deckCompanies} onRotate={onRotate} />
+        </div>
+
+        {hand && (
+          <Hand
+            companies={hand}
+            deckRef={deckRef}
+            isGathering={isGathering}
+            hasFlipped={hasFlipped}
+            onFlip={() => setHasFlipped(true)}
+            onDealt={onDealt}
+            onGathered={onGathered}
           />
-        ))}
-      </motion.ul>
+        )}
+      </div>
     </div>
   );
 };
