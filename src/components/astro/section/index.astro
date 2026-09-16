@@ -14,7 +14,9 @@ const { backgroundColor, framework } = Astro.props;
   class="snap-start h-dvh w-screen max-h-[-webkit-fill-available] flex flex-col overflow-hidden"
   style={{ backgroundColor }}
 >
-  <div class="relative">
+  <!-- Takes the frame's full height, so it is a box the slot can hang things
+       off the bottom of, not just a zero-height origin to measure from. -->
+  <div class="relative grow">
     <div class="absolute h-dvh w-screen max-h-[-webkit-fill-available]">
       <slot />
     </div>

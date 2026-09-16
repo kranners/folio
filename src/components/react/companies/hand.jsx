@@ -1,6 +1,8 @@
 import { motion, useAnimate } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 
+import OnboardingHint from "../onboarding-hint/index.jsx";
+
 import CardFace, { CardBack, CARD_SIZE } from "./card-face.jsx";
 import { getCardOffset } from "./deck.jsx";
 
@@ -33,7 +35,15 @@ const getRestingOnDeck = (element, deck, index) => {
   };
 };
 
-const HandCard = ({ logo, depth, index, isFlipped, isGathering, onFlip }) => {
+const HandCard = ({
+  logo,
+  depth,
+  index,
+  isFlipped,
+  isGathering,
+  hint,
+  onFlip,
+}) => {
   const onKeyDown = (event) => {
     if (event.key !== "Enter" && event.key !== " ") {
       return;
@@ -51,7 +61,7 @@ const HandCard = ({ logo, depth, index, isFlipped, isGathering, onFlip }) => {
       aria-label={`flip ${logo.description}`}
       onClick={onFlip}
       onKeyDown={onKeyDown}
-      className={"shrink-0 snap-center cursor-pointer " + CARD_SIZE}
+      className={"relative shrink-0 snap-center cursor-pointer " + CARD_SIZE}
       style={{ perspective: 1000, zIndex: depth - index }}
       // The li's own transform belongs to the deal and the gather, so the
       // hover lives on the wrapper below. All this needs is to come forward,
@@ -90,16 +100,31 @@ const HandCard = ({ logo, depth, index, isFlipped, isGathering, onFlip }) => {
           />
         </div>
       </motion.div>
+
+      {/* Outside the flipping wrapper, so the nudge stays the right way round
+          while the card it is asking about turns over. It floats clear of the
+          card's top edge rather than sitting over the face. */}
+      {hint}
     </motion.li>
   );
 };
 
-const Hand = ({ logos, deckRef, isGathering, onDealt, onGathered }) => {
+const Hand = ({
+  logos,
+  deckRef,
+  isGathering,
+  hasFlipped,
+  onFlip,
+  onDealt,
+  onGathered,
+}) => {
   const [scope, animate] = useAnimate();
   const [flipped, setFlipped] = useState({});
 
-  const toggleFlip = (url) =>
+  const toggleFlip = (url) => {
     setFlipped((current) => ({ ...current, [url]: !current[url] }));
+    onFlip();
+  };
 
   // Park every card on its own slot in the stack before the first paint, then
   // send them out one at a time. Laying the offsets in during a layout effect
@@ -151,10 +176,11 @@ const Hand = ({ logos, deckRef, isGathering, onDealt, onGathered }) => {
   }, [isGathering]);
 
   // Scrolling sideways makes this a scroll container, which clips the other
-  // axis too -- so the cards' shadow has to fit inside the padding. The bottom
-  // needs the most room: a card starts the deal sitting on its slot in the
-  // stack, up to a whole stack offset below where it lands, and its shadow
-  // reaches a good way further down again.
+  // axis too -- so the cards' shadow has to fit inside the padding, and so
+  // does the nudge floating above the first card. The bottom needs the most
+  // room: a card starts the deal sitting on its slot in the stack, up to a
+  // whole stack offset below where it lands, and its shadow reaches a good way
+  // further down again.
   //
   // Anchored by its top edge rather than centred on its own box, so the extra
   // room below doesn't drag the row down with it. A card is as tall as the
@@ -163,7 +189,7 @@ const Hand = ({ logos, deckRef, isGathering, onDealt, onGathered }) => {
   return (
     <ul
       ref={scope}
-      className="absolute left-1/2 -top-10 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-10 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
+      className="absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
     >
       {logos.map((logo, index) => (
         <HandCard
@@ -173,6 +199,15 @@ const Hand = ({ logos, deckRef, isGathering, onDealt, onGathered }) => {
           depth={logos.length}
           isFlipped={Boolean(flipped[logo.url])}
           isGathering={isGathering}
+          hint={
+            index === 0 && (
+              <div className="pointer-events-none absolute inset-x-0 bottom-full mb-2 flex justify-center">
+                <OnboardingHint isVisible={!hasFlipped}>
+                  tap me to flip
+                </OnboardingHint>
+              </div>
+            )
+          }
           onFlip={() => toggleFlip(logo.url)}
         />
       ))}

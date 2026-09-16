@@ -14,6 +14,8 @@ import FutureGridLogo from "./logos/future-grid.png";
 import SeidoKarateLogo from "./logos/seido-karate.png";
 import SwinburneLogo from "./logos/swinburne.png";
 
+import OnboardingHint from "../onboarding-hint/index.jsx";
+
 import DealIcon from "./deal-icon.jsx";
 import Deck from "./deck.jsx";
 import Hand from "./hand.jsx";
@@ -123,7 +125,7 @@ const pickRandom = (items, count) => {
 // height so the icon keeps its drawn proportions, and kept short enough that
 // the button, its margin and a full-height card still clear an iPhone SE.
 const BUTTON_CLASS_NAME =
-  "mb-8 cursor-pointer transition-colors " +
+  "cursor-pointer transition-colors " +
   "disabled:cursor-default disabled:opacity-50";
 
 // The same spring the cards grow on, so reaching for the button feels like
@@ -146,6 +148,13 @@ const Companies = () => {
   const [deckLogos, setDeckLogos] = useState(LOGOS);
   const deckRef = useRef(null);
 
+  // The three things there are to learn here, in the order they can be done.
+  // Each one is a one-way latch: once it has happened its nudge is gone for
+  // the rest of the visit.
+  const [hasSwiped, setHasSwiped] = useState(false);
+  const [hasDealt, setHasDealt] = useState(false);
+  const [hasFlipped, setHasFlipped] = useState(false);
+
   // The deck rotates under a swipe without remounting, so its live order lives
   // in a ref. Re-keying the deck mid-swipe would cut the animation short.
   const orderRef = useRef(LOGOS);
@@ -156,9 +165,15 @@ const Companies = () => {
     const [top, ...rest] = orderRef.current;
     setHand([top, ...pickRandom(rest, HAND_SIZE - 1)]);
     setIsDealing(true);
+    setHasDealt(true);
   };
 
   const gather = () => setIsGathering(true);
+
+  const onRotate = (logos) => {
+    orderRef.current = logos;
+    setHasSwiped(true);
+  };
 
   const onDealt = () => setIsDealing(false);
 
@@ -182,18 +197,45 @@ const Companies = () => {
   // offset cards and their shadow -- falls off the end of a short viewport.
   return (
     <div className="w-screen h-dvh pt-[calc(20vh+2rem)] overflow-visible flex flex-col items-center justify-center">
-      <motion.button
-        type="button"
-        onClick={hand ? gather : deal}
-        disabled={isDealing || isGathering}
-        aria-pressed={Boolean(hand)}
-        aria-label={hand ? "return to deck" : "deal a hand"}
-        className={BUTTON_CLASS_NAME + " " + (hand ? PRESSED_INK : RESTING_INK)}
-        whileHover={BUTTON_HOVER}
-        transition={BUTTON_SPRING}
-      >
-        <DealIcon className="h-20 w-auto lg:h-28" />
-      </motion.button>
+      {/* The button and the nudge that stands in for it share one box, so the
+          swap between them costs the row no height and the deck below never
+          moves. The box is only as wide as the button, which gives the nudge
+          beside it an edge to hang off. */}
+      <div className="relative mb-8 flex items-center justify-center">
+        {/* There is nothing to deal until the deck has been touched, so until
+            then the button is not there to be pressed. */}
+        <motion.div
+          animate={{ opacity: hasSwiped ? 1 : 0 }}
+          className={hasSwiped ? "" : "pointer-events-none"}
+        >
+          <motion.button
+            type="button"
+            onClick={hand ? gather : deal}
+            disabled={!hasSwiped || isDealing || isGathering}
+            aria-pressed={Boolean(hand)}
+            aria-label={hand ? "return to deck" : "deal a hand"}
+            className={
+              BUTTON_CLASS_NAME + " " + (hand ? PRESSED_INK : RESTING_INK)
+            }
+            whileHover={BUTTON_HOVER}
+            transition={BUTTON_SPRING}
+          >
+            <DealIcon className="h-20 w-auto lg:h-28" />
+          </motion.button>
+        </motion.div>
+
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <OnboardingHint isVisible={!hasSwiped}>
+            try swiping around :)
+          </OnboardingHint>
+        </div>
+
+        <div className="pointer-events-none absolute left-full top-1/2 ml-4 -translate-y-1/2">
+          <OnboardingHint isVisible={hasSwiped && !hasDealt}>
+            👈 click me
+          </OnboardingHint>
+        </div>
+      </div>
 
       {/* The deck never leaves, even while the hand is out. It holds the row's
           place so nothing reflows, and it stays measurable so the cards can
@@ -207,7 +249,7 @@ const Companies = () => {
             key={deckLogos.map((logo) => logo.url).join()}
             ref={deckRef}
             logos={deckLogos}
-            onRotate={(logos) => (orderRef.current = logos)}
+            onRotate={onRotate}
           />
         </div>
 
@@ -216,6 +258,8 @@ const Companies = () => {
             logos={hand}
             deckRef={deckRef}
             isGathering={isGathering}
+            hasFlipped={hasFlipped}
+            onFlip={() => setHasFlipped(true)}
             onDealt={onDealt}
             onGathered={onGathered}
           />

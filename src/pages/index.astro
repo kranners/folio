@@ -9,6 +9,7 @@ import Logomark from "../components/svelte/logomark/index.svelte";
 import CallToAction from "../components/react/call-to-action/index.jsx";
 import Roles from "../components/react/roles/index.jsx";
 import Companies from "../components/react/companies/index.jsx";
+import ScrollHint from "../components/react/scroll-hint/index.jsx";
 ---
 
 <html lang="en">
@@ -20,9 +21,21 @@ import Companies from "../components/react/companies/index.jsx";
     <div class="h-dvh w-screen snap-y snap-mandatory overflow-y-scroll">
       <Section backgroundColor="#F9F9F9">
         <Signature />
+        <!-- Clear of the mystery figure, which is as tall as its own width
+             makes it and sits on the bottom edge. -->
+        <ScrollHint
+          client:only="react"
+          className="bottom-[calc(12vw_+_1.5rem)]"
+          text="try scrolling down!"
+        />
       </Section>
       <Section backgroundColor="#FEE3AC">
         <Roles client:only="react" />
+        <ScrollHint
+          client:only="react"
+          className="bottom-16"
+          text="more down here 👇"
+        />
       </Section>
       <Section backgroundColor="#B5DCF0">
         <Companies client:only="react" />
