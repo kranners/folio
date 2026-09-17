@@ -1,6 +1,6 @@
 const CardShell = ({ className, children }) => (
   <div
-    className={`w-full h-full border-2 rounded-2xl p-5 bg-white shadow-xl flex flex-col justify-center items-center ${className}`}
+    className={`w-full h-full border-2 rounded-2xl p-5 bg-white shadow-xl flex flex-col justify-center items-center text-center ${className}`}
   >
     {children}
   </div>
@@ -23,7 +23,7 @@ export const CardFace = ({ logo, name, role }) => {
 
 export const CardBack = ({ logo, name, blurb }) => {
   return (
-    <CardShell className="relative gap-2 text-center">
+    <CardShell className="relative gap-2">
       <img
         src={logo.src}
         alt=""
