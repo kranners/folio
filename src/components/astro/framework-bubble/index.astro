@@ -5,6 +5,7 @@ import Bubble from "./assets/bubble.png";
 import Preact from "./assets/preact.svg";
 import React from "./assets/react.svg";
 import Svelte from "./assets/svelte.svg";
+import Vue from "./assets/vue.svg";
 
 interface Framework {
   display: string;
@@ -24,6 +25,10 @@ export const FRAMEWORKS: Record<string, Framework> = {
     display: "Svelte",
     src: Svelte,
   },
+  vue: {
+    display: "Vue",
+    src: Vue,
+  },
 };
 
 interface Props {
@@ -34,11 +39,11 @@ const { framework } = Astro.props;
 const { display, src } = FRAMEWORKS[framework];
 ---
 
-<div class="hidden md:flex w-screen h-dvh items-end relative">
+<div class="framework-bubble flex w-screen h-dvh items-end relative">
   <div class="flex flex-col justify-center items-center relative max-w-[10rem]">
     <Image
       loading="eager"
-      class="w-[20vw]"
+      class="w-[15vw] md:w-[20vw]"
       src={Bubble}
       alt={`Built with ${display}`}
     />

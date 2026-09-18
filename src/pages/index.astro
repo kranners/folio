@@ -1,13 +1,15 @@
 ---
 import MainHead from "../components/astro/main-head/index.astro";
-import Signature from "../components/astro/signature/index.astro";
-import FrappuccinoLink from "../components/astro/frappuccino-link/index.astro";
 import Section from "../components/astro/section/index.astro";
 
+import Signature from "../components/svelte/signature/index.astro";
 import Logomark from "../components/svelte/logomark/index.svelte";
 
+import FrappuccinoLink from "../components/vue/frappuccino-link/index.astro";
+
+import Roles from "../components/preact/roles/index.jsx";
+
 import CallToAction from "../components/react/call-to-action/index.jsx";
-import Roles from "../components/react/roles/index.jsx";
 import Companies from "../components/react/companies/index.jsx";
 import ScrollHint from "../components/react/scroll-hint/index.jsx";
 ---
@@ -19,7 +21,7 @@ import ScrollHint from "../components/react/scroll-hint/index.jsx";
   <body>
     <Logomark client:load />
     <div class="h-dvh w-screen snap-y snap-mandatory overflow-y-scroll">
-      <Section backgroundColor="#F9F9F9">
+      <Section backgroundColor="#F9F9F9" framework="svelte">
         <Signature />
         <ScrollHint
           client:only="react"
@@ -27,21 +29,21 @@ import ScrollHint from "../components/react/scroll-hint/index.jsx";
           text="try scrolling down!"
         />
       </Section>
-      <Section backgroundColor="#FEE3AC">
-        <Roles client:only="react" />
+      <Section backgroundColor="#FEE3AC" framework="preact">
+        <Roles client:only="preact" />
         <ScrollHint
           client:only="react"
           className="bottom-16"
           text="more down here 👇"
         />
       </Section>
-      <Section backgroundColor="#B5DCF0">
+      <Section backgroundColor="#B5DCF0" framework="react">
         <Companies client:only="react" />
       </Section>
-      <Section backgroundColor="#AECEA6">
-        <FrappuccinoLink /> 
+      <Section backgroundColor="#AECEA6" framework="vue">
+        <FrappuccinoLink />
       </Section>
-      <Section backgroundColor="#E3C9D6">
+      <Section backgroundColor="#E3C9D6" framework="react">
         <CallToAction client:only="react" />
       </Section>
     </div>

@@ -1,8 +1,10 @@
-import { motion } from "motion/react";
+import { useEffect, useRef } from "preact/hooks";
 
 const HEIGHT_PX = 36;
 const HOLD_FRACTION = 0.7;
 const SECONDS_PER_ROLE = 1.5;
+
+const BACK_OUT = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 
 const ROLES = [
   { label: "Software Developer", color: "#666666" },
@@ -33,22 +35,30 @@ const TIMES = [
   1,
 ];
 
+const KEYFRAMES = Y_OFFSET_KEYFRAMES.map((offsetPx, index) => ({
+  transform: `translateY(${offsetPx}px)`,
+  offset: TIMES[index],
+  easing: BACK_OUT,
+}));
+
 const Roles = () => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const animation = ref.current.animate(KEYFRAMES, {
+      duration: SECONDS_PER_ROLE * ROLES.length * 1000,
+      iterations: Infinity,
+    });
+
+    return () => animation.cancel();
+  }, []);
+
   return (
     <div className="h-dvh flex items-center justify-center">
       <div className="text-3xl font-bold flex flex-row items-center gap-3 whitespace-nowrap">
         <span className="text-[#011c53]">im a</span>
         <div className="h-9 overflow-hidden">
-          <motion.ul
-            animate={{ y: Y_OFFSET_KEYFRAMES }}
-            transition={{
-              times: TIMES,
-              ease: "backOut",
-              repeat: Infinity,
-              duration: SECONDS_PER_ROLE * ROLES.length,
-            }}
-            className="flex flex-col items-start"
-          >
+          <ul ref={ref} className="flex flex-col items-start">
             {ROLES.map(({ label, color }) => (
               <li key={label} className="leading-9" style={{ color }}>
                 {label}
@@ -61,7 +71,7 @@ const Roles = () => {
             >
               {ROLES[0].label}
             </li>
-          </motion.ul>
+          </ul>
         </div>
       </div>
     </div>

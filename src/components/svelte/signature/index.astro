@@ -1,0 +1,18 @@
+---
+import { getImage } from "astro:assets";
+
+import Signature from "./signature.svelte";
+
+import Guy from "./assets/guy.png";
+import Mystery from "./assets/mystery.png";
+
+const guy = await getImage({ src: Guy });
+const mystery = await getImage({ src: Mystery });
+---
+
+<Signature
+  guySrc={guy.src}
+  guySrcSet={guy.srcSet.attribute}
+  mysterySrc={mystery.src}
+  mysterySrcSet={mystery.srcSet.attribute}
+/>

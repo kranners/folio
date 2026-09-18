@@ -11,3 +11,13 @@
     max-width: calc(var(--spacing) * 88);
   }
 }
+
+/* Bubbles stay hidden until the reveal latch is set on the scroll back up. */
+.framework-bubble {
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+}
+
+html[data-frameworks-revealed] .framework-bubble {
+  opacity: 1;
+}

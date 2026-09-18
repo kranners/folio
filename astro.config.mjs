@@ -13,16 +13,16 @@ export default defineConfig({
   },
   integrations: [
     preact({
-      include: "**/preact/*",
+      include: "**/preact/**/*.{jsx,tsx}",
     }),
     react({
-      include: "**/react/*",
+      include: "**/react/**/*.{jsx,tsx}",
     }),
     svelte({
       include: "**.svelte",
     }),
     vue({
-      include: "**.vue",
+      include: "**/*.vue",
     }),
   ],
   vite: {
