@@ -8,9 +8,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="w-screen h-dvh flex flex-col items-center justify-center">
+  <div class="relative w-full h-full flex items-center justify-center">
     <div
-      class="ease-all glow float pointer-events-none w-screen h-[90vh] flex items-center justify-center"
+      class="ease-all glow float pointer-events-none flex items-center justify-center"
     >
       <a href="https://docs.cute.engineer">
         <img
@@ -21,7 +21,7 @@ defineProps({
         />
       </a>
     </div>
-    <div class="absolute text-[#733e19] text-center top-[75vh]">
+    <div class="absolute inset-x-0 bottom-[8dvh] text-[#733e19] text-center">
       <p class="text-[35px]">otherwise i would forget everything 👆</p>
       <a class="text-[20px] underline" href="https://pages.cute.engineer">
         opinions go in here
