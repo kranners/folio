@@ -1,0 +1,11 @@
+---
+import { getImage } from "astro:assets";
+
+import FrappuccinoLink from "./frappuccino-link.vue";
+
+import Cup from "./assets/cup.png";
+
+const cup = await getImage({ src: Cup });
+---
+
+<FrappuccinoLink src={cup.src} srcSet={cup.srcSet.attribute} />

@@ -17,6 +17,10 @@ export default defineConfig(
       parserOptions: {
         ecmaFeatures: { jsx: true },
       },
+      globals: {
+        document: "readonly",
+        IntersectionObserver: "readonly",
+      },
     },
   },
 );
