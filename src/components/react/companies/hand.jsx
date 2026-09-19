@@ -6,6 +6,8 @@ import OnboardingHint from "../onboarding-hint/index.jsx";
 import { CardFace, CardBack } from "./card-face.jsx";
 import { getCardOffset } from "./deck.jsx";
 
+import Styles from "./styles.module.css";
+
 const DEAL_STAGGER_SECONDS = 0.12;
 
 const FLIGHT = { type: "spring", bounce: 0.25 };
@@ -48,7 +50,7 @@ const HandCard = ({
 
   return (
     <motion.li
-      className="relative shrink-0 snap-center card-size"
+      className={`${Styles.slot} ${Styles.cardSize}`}
       style={{ perspective: 1000, zIndex: restingZIndex }}
       whileHover={{ zIndex: isGathering ? restingZIndex : depth + 1 }}
     >
@@ -57,13 +59,13 @@ const HandCard = ({
         aria-pressed={isFlipped}
         aria-label={`flip ${company.name}`}
         onClick={onFlip}
-        className="relative w-full h-full cursor-pointer"
+        className={Styles.flipper}
         style={{ transformStyle: "preserve-3d" }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         whileHover={{ scale: isGathering ? 1 : 1.1 }}
         transition={FLIGHT}
       >
-        <div className="absolute inset-0" style={HIDE_BACKFACE}>
+        <div className={Styles.faceLayer} style={HIDE_BACKFACE}>
           <CardFace
             logo={company.logo}
             name={company.name}
@@ -72,7 +74,7 @@ const HandCard = ({
         </div>
 
         <div
-          className="absolute inset-0"
+          className={Styles.faceLayer}
           style={{ ...HIDE_BACKFACE, transform: "rotateY(180deg)" }}
         >
           <CardBack
@@ -147,10 +149,7 @@ const Hand = ({
   }, [isGathering]);
 
   return (
-    <ul
-      ref={scope}
-      className="absolute left-1/2 -top-16 -translate-x-1/2 w-screen flex flex-row items-center gap-4 px-8 pt-16 pb-20 overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:justify-center"
-    >
+    <ul ref={scope} className={Styles.hand}>
       {companies.map((company, index) => (
         <HandCard
           key={company.url}
@@ -162,7 +161,7 @@ const Hand = ({
           onFlip={() => toggleFlip(company.url)}
         >
           {index === 0 && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-full mb-2 flex justify-center">
+            <div className={Styles.hint}>
               <OnboardingHint isVisible={!hasFlipped}>
                 tap me to flip
               </OnboardingHint>

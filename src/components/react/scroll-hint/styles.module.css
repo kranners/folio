@@ -1,0 +1,11 @@
+.hint {
+  pointer-events: none;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--scroll-hint-bottom, 4rem);
+
+  display: flex;
+  justify-content: center;
+}

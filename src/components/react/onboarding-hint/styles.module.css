@@ -1,0 +1,19 @@
+.hint {
+  user-select: none;
+  pointer-events: none;
+
+  text-transform: lowercase;
+  white-space: nowrap;
+
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: var(--hint-navy);
+}
+
+@media (min-width: 48rem) {
+  .hint {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}

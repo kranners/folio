@@ -39,19 +39,51 @@ const { framework } = Astro.props;
 const { display, src } = FRAMEWORKS[framework];
 ---
 
-<div class="framework-bubble flex w-screen h-dvh items-end relative">
-  <div class="flex flex-col justify-center items-center relative max-w-[10rem]">
+<div class="framework-bubble">
+  <div class="stack">
     <Image
       loading="eager"
-      class="w-[15vw] md:w-[20vw]"
+      class="bubble"
       src={Bubble}
       alt={`Built with ${display}`}
     />
-    <Image
-      loading="eager"
-      class="absolute w-1/4 mt-[40%]"
-      src={src}
-      alt={display}
-    />
+    <Image loading="eager" class="logo" src={src} alt={display} />
   </div>
 </div>
+
+<style>
+  .framework-bubble {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    max-width: 10rem;
+  }
+
+  .bubble {
+    width: 15vw;
+  }
+
+  @media (min-width: 48rem) {
+    .bubble {
+      width: 20vw;
+    }
+  }
+
+  .logo {
+    position: absolute;
+    width: 25%;
+    margin-top: 40%;
+  }
+</style>

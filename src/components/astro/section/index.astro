@@ -5,23 +5,48 @@ import { FRAMEWORKS } from "../framework-bubble/index.astro";
 interface Props {
   backgroundColor: string;
   framework?: keyof typeof FRAMEWORKS;
+  style?: Record<string, string>;
 }
 
-const { backgroundColor, framework } = Astro.props;
+const { backgroundColor, framework, style } = Astro.props;
 ---
 
-<div
-  class="snap-start h-dvh w-screen max-h-[-webkit-fill-available] flex flex-col overflow-hidden"
-  style={{ backgroundColor }}
->
-  <div class="relative grow">
-    <div class="absolute h-dvh w-screen max-h-[-webkit-fill-available]">
+<div data-section style={{ backgroundColor, ...style }}>
+  <div class="body">
+    <div class="layer">
       <slot />
     </div>
-    <div
-      class="select-none pointer-events-none absolute h-dvh w-screen max-h-[-webkit-fill-available]"
-    >
+    <div class="layer bubble">
       {framework && <FrameworkBubble framework={framework} />}
     </div>
   </div>
 </div>
+
+<style>
+  [data-section] {
+    scroll-snap-align: start;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    height: 100dvh;
+    width: 100vw;
+    max-height: -webkit-fill-available;
+  }
+
+  .body {
+    position: relative;
+    flex-grow: 1;
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .bubble {
+    user-select: none;
+    pointer-events: none;
+  }
+</style>

@@ -9,7 +9,7 @@
 
 .title {
   text-align: center;
-  color: #666;
+  color: var(--grey);
   opacity: 0.6;
   padding-top: 5vh;
   padding-bottom: 5vh;
@@ -21,7 +21,7 @@
 }
 
 .paragraph {
-  color: #666;
+  color: var(--grey);
   padding-top: 5vh;
 
   font-size: 2vw;
@@ -47,13 +47,24 @@
   display: inline;
   max-height: 2rem;
   height: 5vh;
-  fill: #666;
+  fill: var(--grey);
   opacity: 0.6;
   padding-left: 0.75rem;
 }
 
 .container a {
-  color: #6FA2D7;
+  color: var(--link-blue);
   text-decoration: underline;
 }
 
+.hint {
+  pointer-events: none;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2rem;
+
+  display: flex;
+  justify-content: center;
+}

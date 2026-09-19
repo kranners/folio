@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 import OnboardingHint from "../onboarding-hint/index.jsx";
 
+import Styles from "./styles.module.css";
+
 const FADE_AT_PROGRESS = 0.5;
 
-const ScrollHint = ({ className = "", text }) => {
+const ScrollHint = ({ text }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -13,7 +15,7 @@ const ScrollHint = ({ className = "", text }) => {
       return;
     }
 
-    const frame = ref.current.closest(".snap-start");
+    const frame = ref.current.closest("[data-section]");
     const container = frame.parentElement;
 
     const hideOnceScrolledPast = () => {
@@ -35,13 +37,7 @@ const ScrollHint = ({ className = "", text }) => {
   }, [isVisible]);
 
   return (
-    <div
-      ref={ref}
-      className={
-        "pointer-events-none absolute inset-x-0 flex justify-center " +
-        className
-      }
-    >
+    <div ref={ref} className={Styles.hint}>
       <OnboardingHint isVisible={isVisible}>{text}</OnboardingHint>
     </div>
   );

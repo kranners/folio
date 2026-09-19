@@ -1,44 +1,38 @@
+import Styles from "./card-face.module.css";
+
 const CardShell = ({ className, children }) => (
-  <div
-    className={`w-full h-full border-2 rounded-2xl p-5 bg-white shadow-xl flex flex-col justify-center items-center text-center ${className}`}
-  >
-    {children}
-  </div>
+  <div className={`${Styles.shell} ${className}`}>{children}</div>
 );
 
 export const CardFace = ({ logo, name, role }) => {
   return (
-    <CardShell className="gap-2 md:gap-5">
-      <img
-        src={logo.src}
-        alt={name}
-        className="pointer-events-none p-2 max-w-1/2"
-      />
+    <CardShell className={Styles.face}>
+      <img src={logo.src} alt={name} className={Styles.logo} />
 
-      <p className="lowercase text-xl md:text-2xl font-semibold">{name}</p>
-      <p className="lowercase text-base md:text-xl font-light">{role}</p>
+      <p className={Styles.name}>{name}</p>
+      <p className={Styles.role}>{role}</p>
     </CardShell>
   );
 };
 
 export const CardBack = ({ logo, name, blurb }) => {
   return (
-    <CardShell className="relative gap-2">
+    <CardShell className={Styles.back}>
       <img
         src={logo.src}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute top-3 left-3 size-7 object-contain"
+        className={`${Styles.corner} ${Styles.topLeft}`}
       />
 
-      <p className="lowercase text-lg md:text-xl font-semibold">{name}</p>
-      <p className="text-xs md:text-sm font-light leading-snug">{blurb}</p>
+      <p className={`${Styles.name} ${Styles.backName}`}>{name}</p>
+      <p className={Styles.blurb}>{blurb}</p>
 
       <img
         src={logo.src}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-3 right-3 size-7 object-contain rotate-180"
+        className={`${Styles.corner} ${Styles.bottomRight}`}
       />
     </CardShell>
   );

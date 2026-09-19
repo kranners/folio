@@ -1,12 +1,31 @@
-<div
-  class="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
->
-  <p
-    class="w-[10rem] mr-2 text-4xl text-center text-teal-600 font-black select-none"
-  >
+<div class="logomark">
+  <p>
     aaron
     jessup
     ryan
     pierce
   </p>
 </div>
+
+<style>
+  .logomark {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+
+  p {
+    width: 10rem;
+    margin-right: 0.5rem;
+
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    text-align: center;
+    font-weight: 900;
+    color: var(--logomark-teal);
+
+    user-select: none;
+  }
+</style>

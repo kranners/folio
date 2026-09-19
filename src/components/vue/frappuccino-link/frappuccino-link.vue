@@ -8,24 +8,20 @@ defineProps({
 </script>
 
 <template>
-  <div class="relative w-full h-full flex items-center justify-center">
-    <div
-      class="ease-all glow float pointer-events-none flex items-center justify-center"
-    >
+  <div class="container">
+    <div class="ease-all glow float">
       <a href="https://docs.cute.engineer">
         <img
-          class="ease-all max-w-sm w-[60vw] hover:max-w-md hover:w-[70vw] pointer-events-auto"
+          class="ease-all cup"
           alt="Coffee cup notebook"
           :src="src"
           :srcset="srcSet"
         />
       </a>
     </div>
-    <div class="absolute inset-x-0 bottom-[8dvh] text-[#733e19] text-center">
-      <p class="text-[35px]">otherwise i would forget everything 👆</p>
-      <a class="text-[20px] underline" href="https://pages.cute.engineer">
-        opinions go in here
-      </a>
+    <div class="caption">
+      <p>otherwise i would forget everything 👆</p>
+      <a href="https://pages.cute.engineer"> opinions go in here </a>
     </div>
   </div>
 </template>
@@ -54,6 +50,16 @@ defineProps({
   transition: all 0.5s ease-in-out;
 }
 
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .glow {
   background: radial-gradient(
     circle at center, 
@@ -63,10 +69,46 @@ defineProps({
 
   width: 80vw;
   aspect-ratio: 1 / 1;
+
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .glow:hover {
   width: 100vw;
   height: 100vh;
+}
+
+.cup {
+  max-width: 24rem;
+  width: 60vw;
+  pointer-events: auto;
+}
+
+.cup:hover {
+  max-width: 28rem;
+  width: 70vw;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8dvh;
+
+  text-align: center;
+  color: var(--frappuccino);
+}
+
+.caption p {
+  font-size: 35px;
+}
+
+.caption a {
+  font-size: 20px;
+  text-decoration: underline;
 }
 </style>

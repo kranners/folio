@@ -20,6 +20,8 @@ import DealIcon from "./deal-icon.jsx";
 import Deck from "./deck.jsx";
 import Hand from "./hand.jsx";
 
+import Styles from "./index.module.css";
+
 const COMPANIES = [
   {
     logo: PraxhubLogo,
@@ -123,9 +125,6 @@ const pickRandom = (items, count) => {
 const BUTTON_HOVER = { scale: 1.1 };
 const BUTTON_SPRING = { type: "spring" };
 
-const RESTING_INK = "text-[#4a230f]";
-const PRESSED_INK = "text-white";
-
 const Companies = () => {
   const [hand, setHand] = useState(null);
   const [isDealing, setIsDealing] = useState(false);
@@ -172,8 +171,8 @@ const Companies = () => {
   };
 
   return (
-    <div className="w-screen h-dvh pt-[calc(20dvh+5.5rem)] pb-6 overflow-visible flex flex-col items-center justify-center">
-      <div className="relative z-10 mb-8 flex items-center justify-center">
+    <div className={Styles.frame}>
+      <div className={Styles.controls}>
         <motion.div animate={{ opacity: hasSwiped ? 1 : 0 }}>
           <motion.button
             type="button"
@@ -181,32 +180,32 @@ const Companies = () => {
             disabled={!hasSwiped || isDealing || isGathering}
             aria-pressed={Boolean(hand)}
             aria-label={hand ? "return to deck" : "deal a hand"}
-            className={`block cursor-pointer transition-colors disabled:cursor-default disabled:opacity-50 ${hand ? PRESSED_INK : RESTING_INK}`}
+            className={`${Styles.dealButton} ${hand ? Styles.pressed : Styles.resting}`}
             whileHover={BUTTON_HOVER}
             transition={BUTTON_SPRING}
           >
-            <DealIcon className="block h-20 w-auto lg:h-28" />
+            <DealIcon className={Styles.dealIcon} />
           </motion.button>
         </motion.div>
 
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className={Styles.centreHint}>
           <OnboardingHint isVisible={!hasSwiped}>
             try swiping around :)
           </OnboardingHint>
         </div>
 
-        <div className="pointer-events-none absolute left-full top-1/2 ml-4 -translate-y-1/2">
+        <div className={Styles.sideHint}>
           <OnboardingHint isVisible={hasSwiped && !hasDealt}>
             👈 click me
           </OnboardingHint>
         </div>
       </div>
 
-      <div className="relative flex items-center justify-center">
+      <div className={Styles.stage}>
         <div
           ref={deckRef}
           aria-hidden={Boolean(hand)}
-          className={hand ? "opacity-0 pointer-events-none" : ""}
+          className={hand ? Styles.hidden : undefined}
         >
           <Deck key={dealCount} companies={deckCompanies} onRotate={onRotate} />
         </div>
