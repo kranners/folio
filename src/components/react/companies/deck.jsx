@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { CardFace } from "./card-face.jsx";
 
+import Styles from "./styles.module.css";
+
 const CARD_OFFSET = 8;
 const CARD_OFFSET_DECAY = 0.8;
 
@@ -35,7 +37,6 @@ const MIN_SWIPE_DISTANCE = 100;
 
 const DeckCard = ({ company, index, depth, onSwipe }) => {
   const isFirstCard = index === 0;
-  const pointerEventsClassName = isFirstCard ? "" : "pointer-events-none";
   const face = (
     <CardFace logo={company.logo} name={company.name} role={company.role} />
   );
@@ -58,9 +59,7 @@ const DeckCard = ({ company, index, depth, onSwipe }) => {
 
   return (
     <motion.li
-      className={
-        "row-start-1 row-end-1 col-start-1 col-end-1 " + pointerEventsClassName
-      }
+      className={isFirstCard ? Styles.card : `${Styles.card} ${Styles.inert}`}
       initial={getCardStateAtIndex(index)}
       whileHover={{
         scale: 1.1,
@@ -81,7 +80,7 @@ const DeckCard = ({ company, index, depth, onSwipe }) => {
           type="button"
           onClick={onActivate}
           aria-label={`next company, showing ${company.name}`}
-          className="w-full h-full cursor-grab active:cursor-grabbing"
+          className={Styles.swipe}
         >
           {face}
         </button>
@@ -137,7 +136,7 @@ const Deck = ({ companies: initialCompanies, onRotate }) => {
   };
 
   return (
-    <motion.ul ref={scope} className="card-size grid grid-rows-1 grid-cols-1">
+    <motion.ul ref={scope} className={`${Styles.cardSize} ${Styles.deck}`}>
       {companies.map((company, index) => (
         <DeckCard
           key={company.url}

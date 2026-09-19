@@ -17,7 +17,6 @@
     "@astrojs/react": "6.0.5",
     "@astrojs/svelte": "9.0.1",
     "@astrojs/vue": "7.0.2",
-    "@tailwindcss/vite": "4.3.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "astro": "7.3.2",
@@ -26,7 +25,6 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "svelte": "5.57.0",
-    "tailwindcss": "4.3.3",
     "vue": "3.5.42"
   },
   "devDependencies": {
@@ -35,7 +33,6 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.6",
     "jiti": "2.7.0",
-    "sass": "1.104.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.70.0"
   }

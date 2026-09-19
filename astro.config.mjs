@@ -4,8 +4,6 @@ import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 
-import tailwindcss from "@tailwindcss/vite";
-
 // https://astro.build/config
 export default defineConfig({
   devToolbar: {
@@ -25,7 +23,4 @@ export default defineConfig({
       include: "**/*.vue",
     }),
   ],
-  vite: {
-    plugins: [tailwindcss()],
-  },
 });

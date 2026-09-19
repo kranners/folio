@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "preact/hooks";
 
+import Styles from "./styles.module.css";
+
 const HEIGHT_PX = 36;
 const HOLD_FRACTION = 0.7;
 const SECONDS_PER_ROLE = 1.5;
@@ -54,19 +56,19 @@ const Roles = () => {
   }, []);
 
   return (
-    <div className="h-dvh flex items-center justify-center">
-      <div className="text-3xl font-bold flex flex-row items-center gap-3 whitespace-nowrap">
-        <span className="text-[#011c53]">im a</span>
-        <div className="h-9 overflow-hidden">
-          <ul ref={ref} className="flex flex-col items-start">
+    <div className={Styles.frame}>
+      <div className={Styles.line}>
+        <span className={Styles.prefix}>im a</span>
+        <div className={Styles.window}>
+          <ul ref={ref} className={Styles.list}>
             {ROLES.map(({ label, color }) => (
-              <li key={label} className="leading-9" style={{ color }}>
+              <li key={label} className={Styles.role} style={{ color }}>
                 {label}
               </li>
             ))}
             <li
               aria-hidden
-              className="leading-9"
+              className={Styles.role}
               style={{ color: ROLES[0].color }}
             >
               {ROLES[0].label}

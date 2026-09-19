@@ -4,17 +4,38 @@
   let { guySrc, guySrcSet, mysterySrc, mysterySrcSet } = $props();
 </script>
 
-<div class="w-screen h-dvh flex flex-col justify-between relative">
+<div class="signature">
+  <img class="guy" alt="its me" src={guySrc} srcset={guySrcSet} />
   <img
-    class="pt-[35vh] max-w-[40vw] mr-[50vw] self-end"
-    alt="its me"
-    src={guySrc}
-    srcset={guySrcSet}
-  />
-  <img
-    class="absolute bottom-0 max-w-[30vw] self-center"
+    class="mystery"
     alt="its a mystery!!"
     src={mysterySrc}
     srcset={mysterySrcSet}
   />
 </div>
+
+<style>
+  .signature {
+    width: 100vw;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .guy {
+    padding-top: 35vh;
+    max-width: 40vw;
+    margin-right: 50vw;
+    align-self: flex-end;
+  }
+
+  .mystery {
+    position: absolute;
+    bottom: 0;
+    max-width: 30vw;
+    align-self: center;
+  }
+</style>

@@ -20,32 +20,37 @@ import ScrollHint from "../components/react/scroll-hint/index.jsx";
   </head>
   <body>
     <Logomark client:load />
-    <div class="h-dvh w-screen snap-y snap-mandatory overflow-y-scroll">
-      <Section backgroundColor="#F9F9F9" framework="svelte">
+    <div class="sections">
+      <Section
+        backgroundColor="var(--section-signature)"
+        framework="svelte"
+        style={{ "--scroll-hint-bottom": "calc(12vw + 1.5rem)" }}
+      >
         <Signature />
-        <ScrollHint
-          client:only="react"
-          className="bottom-[calc(12vw_+_1.5rem)]"
-          text="try scrolling down!"
-        />
+        <ScrollHint client:only="react" text="try scrolling down!" />
       </Section>
-      <Section backgroundColor="#FEE3AC" framework="preact">
+      <Section backgroundColor="var(--section-roles)" framework="preact">
         <Roles client:only="preact" />
-        <ScrollHint
-          client:only="react"
-          className="bottom-16"
-          text="more down here 👇"
-        />
+        <ScrollHint client:only="react" text="more down here 👇" />
       </Section>
-      <Section backgroundColor="#B5DCF0" framework="react">
+      <Section backgroundColor="var(--section-companies)" framework="react">
         <Companies client:only="react" />
       </Section>
-      <Section backgroundColor="#AECEA6" framework="vue">
+      <Section backgroundColor="var(--section-coffee)" framework="vue">
         <FrappuccinoLink />
       </Section>
-      <Section backgroundColor="#E3C9D6" framework="react">
+      <Section backgroundColor="var(--section-contact)" framework="react">
         <CallToAction client:only="react" />
       </Section>
     </div>
   </body>
 </html>
+
+<style>
+  .sections {
+    height: 100dvh;
+    width: 100vw;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+  }
+</style>

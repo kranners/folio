@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import Styles from "./styles.module.scss";
+import Styles from "./styles.module.css";
 
 import OnboardingHint from "../onboarding-hint/index.jsx";
 
@@ -18,7 +18,7 @@ export default function CallToAction() {
   const [isHintVisible, setIsHintVisible] = useState(false);
 
   useEffect(() => {
-    const frame = ref.current.closest(".snap-start");
+    const frame = ref.current.closest("[data-section]");
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -85,7 +85,7 @@ export default function CallToAction() {
         </p>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center">
+      <div className={Styles.hint}>
         <OnboardingHint isVisible={isHintVisible}>
           now scroll back up 👆
         </OnboardingHint>

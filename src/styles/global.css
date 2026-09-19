@@ -1,15 +1,75 @@
-@import "tailwindcss";
+/* A hand-written reset, covering only what this site leans on. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* The deck and each hand slot share one card footprint; card faces fill it. */
-@utility card-size {
-  width: min(62vw, calc((80dvh - 14rem) * 3 / 4));
-  max-width: calc(var(--spacing) * 68);
-  aspect-ratio: 3 / 4;
+html {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  @variant lg {
-    width: min(18vw, calc((80dvh - 16rem) * 3 / 4));
-    max-width: calc(var(--spacing) * 88);
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+img,
+svg,
+video {
+  display: block;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+}
+
+:root {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+
+  --section-signature: #f9f9f9;
+  --section-roles: #fee3ac;
+  --section-companies: #b5dcf0;
+  --section-coffee: #aecea6;
+  --section-contact: #e3c9d6;
+
+  --grey: #666;
+  --link-blue: #6fa2d7;
+  --hint-navy: #011c53;
+  --frappuccino: #733e19;
+  --deal-ink: #4a230f;
+  --logomark-teal: oklch(60% 0.118 184.704);
 }
 
 /* Bubbles stay hidden until the reveal latch is set on the scroll back up. */
